@@ -6,8 +6,11 @@ def parse_trimester(raw: str) -> Optional[Tuple[str, str]]:
     if not isinstance(raw, str):
         return None
 
-    # Allow 2-digit or 4-digit years
-    match = re.match(r'(\d)[tT]/?(\d{2,4})$', raw)
+    # Normalize spacing and lowercase
+    raw = raw.strip().lower()
+
+    # Match formats like "1T/2022", "4T2022", "4T/10", "4t72010", etc.
+    match = re.search(r'([1-4])[tT][\/\s\-]?(\d{2,4})', raw)
     if match:
         quarter = int(match.group(1))
         year = int(match.group(2))

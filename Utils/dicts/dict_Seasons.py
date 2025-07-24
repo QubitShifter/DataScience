@@ -6,4 +6,4 @@ season_map = {
     "winter": ("12-01", "02-28")  # Non-leap years
 }
 
-print(f"Available seasons: {list(season_map.keys())}")
+#print(f"Available seasons: {list(season_map.keys())}")
