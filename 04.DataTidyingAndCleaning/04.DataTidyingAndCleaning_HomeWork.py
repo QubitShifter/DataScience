@@ -4,22 +4,25 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
+
 from Utils.functions.func_fix_column_names import snake_case
 from Utils.functions.func_convert_units_kg import units_to_kg
-from Utils.functions.func_fix_date_multiColumns import convert_date_multiColumns
 from Utils.functions.func_spanish_to_english import translator
 from Utils.functions.func_parse_trimesters import parse_trimester
-from Utils.functions.func_normalize_dates import normalize_dates
-from Utils.functions.func_normalize_month import normalize_month
+from Utils.functions.func_helper_normalize_text import normalize_text
+from Utils.functions.func_helper_normalize_dates import normalize_dates
+from Utils.functions.func_helper_normalize_month import normalize_month
+from Utils.functions.func_fix_date_multiColumns import convert_date_multiColumns
+from Utils.dicts.dict_graph_rating_colums import rating_columns
 from Utils.dicts.dict_Country_on_Continent import country_to_continent
 from Utils.lists.stats_Raiting_Columns import statistical_columns
-from Utils.dicts.dict_graph_rating_colums import rating_columns
 
-from Utils.functions.func_fix_harvest_date import get_start_end_dates
-from Utils.functions.func_chunk_size import chunk_size
-from Utils.functions.func_countryHarvestYear import transform_dates_from_country_and_year
-from Utils.dicts.dict_Cofee_Harvest_periods import coffee_harvest_seasons
-from Utils.functions.func_HarvestDate_normalized import normalize_harvest_year
+
+# from Utils.functions.func_fix_harvest_date import get_start_end_dates
+# from Utils.functions.func_chunk_size import chunk_size
+# from Utils.functions.func_countryHarvestYear import transform_dates_from_country_and_year
+# from Utils.dicts.dict_Cofee_Harvest_periods import coffee_harvest_seasons
+# from Utils.functions.func_HarvestDate_normalized import normalize_harvest_year
 
 
 
@@ -31,7 +34,10 @@ pd.set_option('display.width', 200)
 pd.set_option('display.precision', 2)
 coffee_data = pd.read_csv("lab/merged_data_cleaned.csv")
 
-## 1 Reading DataSet (reading columns, types, etc)
+###################################################################
+###################### 1 Reading Data #############################
+###################################################################
+
 print(f"{'':48}")
 print(indent + "********* PROBLEM 1. READ THE DATASET **********")
 print(indent + "********* Begin dataset observation ************")
@@ -68,7 +74,8 @@ print(indent + f"{'':48}\n" * 2)
 
 
 ###################################################################
-## 2 DataSet observation, features, numerical and categorical, etc
+################# 2 DataSet observation ###########################
+###################################################################
 print(
     f"""    {indent} "********** PROBLEM 2. OBSERVATIONS AND FEATURES. ********* 
     {indent} "********** Observations are there? How many features? ********
@@ -104,8 +111,8 @@ print(indent + f"{'':48}\n" * 2)
 
 
 ########################################################################
-## 3 Column manipulation
-###calling function to fix column names to snake_case
+################# 3 Column manipulation ################################
+########################################################################
 print(
     f"""    {indent}********** PROBLEM 3. COLUMNS MANIPULATION. ********* 
     {indent}********** MAKE COLUMNS NAMES MORE PYTHONIC. ********
@@ -135,8 +142,8 @@ print(indent + f"{'':48}\n" * 2)
 
 
 ############################################################################
-## 4 Bag Weight
-###calling function to fix column names to snake_case
+########################## 4 Bag Weight ####################################
+############################################################################
 print(
     f"""    {indent}********** PROBLEM 4. BAG WEIGHT. ********* 
     {indent}********** WHAT"S UP WITH BAG WEIGHT? ********
@@ -208,8 +215,8 @@ print(indent + f"{'':48}\n" * 2)
 
 
 ####################################################################
-## 5 Harvester of Sorrow. deal with it! YOU MUST
-
+########## 5 Harvester of Sorrow. deal with it! YOU MUST ###########
+####################################################################
 print(
     f"""    {indent}********** PROBLEM 5. DATES.   ********* 
     {indent}********** SLIGHTLY NASTIER? SLIGHTLY???********
@@ -239,8 +246,8 @@ print(
 
 print(
     f"""
-    {indent}We are going to use another custom function - convert_date_multiColumns wich will convert both  [grading_date] and [expiration]
-    columns to "%Y-%m-%d"
+    {indent}We are going to use another custom function - convert_date_multiColumns wich will convert 
+    data in both [grading_date] and [expiration] columns to "%Y-%m-%d"
     """
 )
 
@@ -270,8 +277,9 @@ print(f"{'':48}\n" * 2)
 
 print(
     f"""
-    {indent} This column contains quite a lot different types of date formats. It also have spanish words init. It appears
-    that we have to deal with only years, month to month as a period, and some trimesters like "4T/20100" as a harvest period.
+    {indent} This column contains quite a lot different types of date formats. It also have spanish words init. 
+    It appears that we have to deal with only years, month to month as a period, and some trimesters ->
+    like "4T/20100" as a harvest period.
     """
 )
 
@@ -279,9 +287,9 @@ print(f"{'':48}")
 
 print(
     f"""
-    {indent} We will start to clear all differences and incoinsistencies one by one. For the beginning we can try to translate 
-    all spanish words to English. For this purpose  we have custom dictionaty "dict_Es_to_En" and a suctom function that 
-    will use this dictionary to translate what needs to be translated
+    {indent} We will start to clear all differences and incoinsistencies one by one. For the beginning we can try 
+    to translate all spanish words to English. For this purpose  we have custom dictionaty "dict_Es_to_En" 
+    and a suctom function that will use this dictionary to translate what needs to be translated
     """
 )
 
@@ -376,6 +384,9 @@ print(indent + "*" * 9 + " END OF QUERYING PROBLEM 5. " + "*" * 9)
 print(indent + f"{'':48}\n" * 2)
 
 
+####################################################################
+###################### Problem 6  CONTRIES #########################
+####################################################################
 
 print(
     f"""    {indent}********** PROBLEM 6. ЦОНТРИЕС.   ********* 
@@ -426,16 +437,18 @@ print(coffee_data.loc[1197])
 
 print(
     f"""
-    {indent}According to information that we have gather, we can еither drop tjat line, or we can try to populate 'country_of_origin' based
-    on the information for 'racafe & cia s.c.a' country of production.  
-    Printing everythong for index 1197 to find some meaningful information. We can find some info in owner and  owner_1 columns we can see 'Racafe & Cia S.C.A'
-    according to Internet https://drwakefield.com/producer/racafe/ is Columbian coffee brand
+    {indent}According to information that we have gather, we can еither drop tjat line, or we can try to populate 
+    'country_of_origin' based on the information for 'racafe & cia s.c.a' country of production.  
+    Printing everythong for index 1197 to find some meaningful information. We can find some info in owner and  
+    owner_1 columns we can see 'Racafe & Cia S.C.A'.
+    According to Internet https://drwakefield.com/producer/racafe/ is Columbian coffee brand
     """
 )
 
 print(
     f"""
-    {indent}We can either Insert Columbia as a 'country_of_origin' if we are sure about that. or just leave it as it is.
+    {indent}We can either Insert Columbia as a 'country_of_origin' if we are sure about that. 
+    Or we can just leave it as it is.
     
     """
 )
@@ -445,6 +458,9 @@ print(indent + "*" * 9 + " END OF QUERYING PROBLEM 6. " + "*" * 9)
 print(indent + f"{'':48}\n" * 2)
 
 
+####################################################################
+###################### Problem 7  OWNERS ###########################
+####################################################################
 
 print(
     f"""    {indent}********** PROBLEM 7. OWNERS.   ********* 
@@ -480,7 +496,6 @@ print(
     f"""
     {indent}На пръв поглед разликата в колоните изглежда да е като само големи/малки букви?
     Записите и в двете колони изглеждат идентични
-
     """
 )
 
@@ -533,6 +548,10 @@ print(f"{'':48}")
 print(indent + "*" * 9 + " END OF QUERYING PROBLEM 7. " + "*" * 9)
 print(indent + f"{'':48}\n" * 2)
 
+
+####################################################################
+############## Problem 8  COLORS BY COUNTRY ########################
+####################################################################
 
 print(
     f"""    {indent}********** PROBLEM 8. COFFEE COLOR BY COUNTRY AND CONTINENT.   ********* 
@@ -592,6 +611,9 @@ print(f"{'':48}")
 print(indent + "*" * 9 + " END OF QUERYING PROBLEM 8. " + "*" * 9)
 print(indent + f"{'':48}\n" * 2)
 
+############################################################################
+######################### Problem 9  RATINGS ###############################
+############################################################################
 
 print(
     f"""    {indent}********** PROBLEM 9. RATINGS.   ********* 
@@ -625,6 +647,8 @@ print(
 )
 for col in rating_columns:
     print(f"{col}: min={coffee_data[col].min()}, max={coffee_data[col].max()}")
+
+print(f"{'':48}")
 
 #### Mean, Min, Max, Range
 
@@ -741,9 +765,45 @@ plt.tight_layout()
 plt.show()
 
 print(f"{'':48}")
+print(
+    f"""
+    {indent}От няколкото ртазлични графики моцем да направим някои важни за нашия анализ изводи.
+    От корелационната карта виждаме, че има доста висока зависимост (0.9) между вида кафе и послевкуса-а
+    флажоур <-> афтертасте.
+    Виждаме и висока корелация между вкус и крайна оценка flavour <-> total_cup_points (0.85)
+    """
+)
+
+print(
+    f"""
+    {indent}Наблюдават се и по-слаби корелации. Например sweetnes <-> flavour (0.29), moisture <-> aroma (-0.13),
+    moisture <-> total_cup_points (-0.12). Можем да кажем, че тези показатели имат ограничено влияние върху общата оценка
+    """
+)
+
+print(
+    f"""
+    {indent}От boxplots графиката виждаме, че няколко показателя имат по-широки кутийки и ясно видими отклонения, 
+    (Аромат, Вкус, Послевкус, Киселинност, Плътност и Баланс:). Техните медиани са около 8.5 - 9.0 което подсказва за 
+    високи оценки по тези характеристики.
+    """
+)
+
+print(
+    f"""
+    {indent}От boxplots графиката също така се виждат и някои характеристики с много ниска променливост. 
+    Техните стойности са почти еднакви или са изключително близки една до друга (clean_cup, sweetnes )
+    
+    """
+)
+
+print(f"{'':48}")
 print(indent + "*" * 9 + " END OF QUERYING PROBLEM 9. " + "*" * 9)
 print(indent + f"{'':48}\n" * 2)
 
+####################################################################
+######### Problem 10  HIGH-LEVEL ERRORS ############################
+####################################################################
 
 print(
     f"""    {indent}********** PROBLEM 10. HIGH-LEVEL ERRORS.   ********* 
@@ -756,6 +816,10 @@ print(f"{'':48}")
 print(indent + "*" * 9 + " BEGIN COLUMN MANIPULATION " + "*" * 9)
 print(f"{'':48}\n" * 2)
 
+
+#print(coffee_data['region'].unique())
+
+
 print(
     f"""
     {indent}Проверяваме страна срещу регион
@@ -764,6 +828,33 @@ print(
 country_region = coffee_data.groupby('country_of_origin')['region'].unique()
 for country, regions in country_region.items():
     print(f"{country}: {regions}")
+
+
+print(
+    f"""
+    {indent}Доста грешки в изписването и с асайнването на регионите към дадена държава.
+    например имаме 'United States' с регион 'antioquia'. Antioquia е в Colombia
+    Имаме - Colombia с регион '52 narino (exact location: mattituy; municipal region: florida code 381'
+    което изглежда като грешно, недописано  и т.н.
+    Имаме и 'dummy' стойности -> Brazil с регион ['ммм', 'тест']
+    и още много . ..
+    """
+)
+
+
+country_region_map = {
+    'Brazil': ['test', 'nan', 'cerrado', 'sul de minas - carmo de minas', 'grama valley'],
+    'United States': ['antioquia', 'berastagi', 'central america', 'chikmagalur'],
+
+}
+
+
+coffee_data['region'] = coffee_data['region'].apply(normalize_text)
+bad_regions = ['nan', 'test', 'mmm', 'na', 'none']
+
+coffee_data = coffee_data[~coffee_data['region'].isin(bad_regions)]
+
+
 
 print(f"{'':48}\n" * 2)
 #### check altitudes
@@ -818,6 +909,7 @@ print(f"{'':48}")
 implausible_altitudes = coffee_data[
     (coffee_data['altitude_all_equal']) & (coffee_data['altitude_mean_meters'] < 100)
 ]
+
 print(f"{'':48}")
 print(implausible_altitudes[['country_of_origin', 'region', 'altitude_mean_meters']])
 
