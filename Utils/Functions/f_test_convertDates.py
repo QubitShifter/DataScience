@@ -1,4 +1,4 @@
-from Utils.functions.func_parse_date_range import parse_date_range
+from Utils.Functions.func_parse_date_range import parse_date_range
 
 
 def convertDates():

@@ -1,5 +1,5 @@
-from Utils.functions.func_parse_trimesters import parse_trimester
-from Utils.dicts.dict_Month_Quarters import months_Quarter
+from Utils.Functions.func_parse_trimesters import parse_trimester
+from Utils.Dicts.dict_Month_Quarters import months_Quarter
 
 
 def test_quarters():

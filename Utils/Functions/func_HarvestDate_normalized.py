@@ -3,11 +3,11 @@ import pandas as pd
 from dateutil import parser
 import re
 import calendar
-from Utils.dicts.dict_Es_to_En import es_to_en_map
-from Utils.dicts.dict_month_name_to_number  import month_name_to_number
-from Utils.functions.func_fix_harvest_date import parse_quarters
-from Utils.dicts.dict_Seasons import season_map
-from Utils.dicts.dict_Cofee_Harvest_periods import coffee_harvest_seasons
+from Utils.Dicts.dict_Es_to_En import es_to_en_map
+from Utils.Dicts.dict_month_name_to_number  import month_name_to_number
+from Utils.Functions.func_fix_harvest_date import parse_quarters
+from Utils.Dicts.dict_Seasons import season_map
+from Utils.Dicts.dict_Cofee_Harvest_periods import coffee_harvest_seasons
 
 # Your translator stays the same
 def translator(text):

@@ -1,9 +1,9 @@
 import re
 from dateutil import parser
 from typing import Optional, Tuple
-from Utils.dicts.dict_Seasons import season_map
-from Utils.functions.func_parse_quaters import parse_quarters
-from Utils.functions.func_spanish_to_english import translator
+from Utils.Dicts.dict_Seasons import season_map
+from Utils.Functions.func_parse_quaters import parse_quarters
+from Utils.Functions.func_spanish_to_english import translator
 
 
 def parse_date_range(raw: str) -> Optional[Tuple[str, str]]:

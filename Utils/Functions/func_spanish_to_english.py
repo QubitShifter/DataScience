@@ -1,5 +1,5 @@
 import re
-from Utils.dicts.dict_Es_to_En import es_to_en_map
+from Utils.Dicts.dict_Es_to_En import es_to_en_map
 
 
 def translator(text):
