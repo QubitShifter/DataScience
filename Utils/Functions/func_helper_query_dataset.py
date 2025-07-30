@@ -1,72 +1,74 @@
+from Utils.Functions.func_helper_print_colors import color_print
+from Utils.Functions.func_helper_duplicate_rows import print_duplicate_rows
 import chardet
+import pandas as pd
+import os
 
-def query_dataframe(dataframe, filepath=None, indent="    "):
-    print(f"{'':48}")
-    print(indent + "********* PROBLEM 1. READ THE DATASET **********")
-    print(indent + "********* Begin dataset observation ************")
-    print(f"{'':48}\n")
 
+def query_dataframe(dataframe, filepath=None, encoding=None, indent="    "):
+    # Encoding + filepath diagnostics
     if filepath:
-        with open(filepath, 'rb') as f:
-            result = chardet.detect(f.read(100000))
-        print(f"Pre-check. Detected CSV encoding: {result}")
+        if encoding:
+            color_print(f"{indent}Encoding check:", level="info")
+            color_print(f"{indent} Filepath: {filepath}", level="info")
+            color_print(f"{indent} Encoding: {encoding}", level="info")
+        else:
+            color_print(f"{indent} Filepath provided but no encoding specified.", level="yellow")
+
+        # Skip raw reading if ZIP
+        if filepath.lower().endswith('.zip'):
+            color_print(f"{indent} Skipping raw line count: ZIP file detected.", level="info")
+        else:
+            try:
+                with open(filepath, 'r', encoding=encoding or 'utf-8') as f:
+                    total_lines = sum(1 for _ in f)
+                color_print(f"{indent} Total lines in file (including header): {total_lines}", level="info")
+                color_print(f"{indent} Rows loaded in DataFrame: {dataframe.shape[0]}", level="info")
+                if dataframe.shape[0] < total_lines - 1:
+                    color_print(f"{indent} Warning: Some rows may not have been read.", level="yellow")
+            except Exception as e:
+                color_print(f"{indent} Could not read raw file to count lines: {e}", level="yellow")
     else:
-        print("No filepath provided for encoding check.")
+        color_print(f"{indent}No filepath provided.", level="yellow")
 
-    print(
-        f"""
-            Pre-check. get csv encoding
-        """
-    )
-
-    with open("F:/GitHub/Python/DataScience/05.DataVisualisation/lab/Most_Streamed_Spotify_Songs_2024.csv", 'rb') as f:
-        result = chardet.detect(f.read(100000))
-        print(result)
-
-    print(
-        f"""
-            DataSet encodinng is: {result}
-        """
-    )
-
+    color_print(f"\n{indent}Dataset Summary\n{indent}{'-' * 50}", level="info")
 
     # Basic info
-    print(indent + f"DataFrame.dimensions: {dataframe.shape}")
+    color_print(f"{indent} DataFrame dimensions: {dataframe.shape}", level="info")
     print(f"{'':48}")
-    print(indent + "DataFrame.coluns and rows:")
+
+    # Null values
+    nulls = dataframe.isnull().sum()
+    if nulls.sum() > 0:
+        color_print(f"{indent} Missing values per column:", level="warning")
+        print(f"{'':48}")
+        print(nulls[nulls > 0])
+    else:
+        color_print(f"{indent} No missing values detected.", level="info")
     print(f"{'':48}")
-    print(dataframe)
+
+    # Duplicates
+    print_duplicate_rows(dataframe, indent=indent)
     print(f"{'':48}")
-    print(dataframe.columns)
-    print(f"{'':48}")
-    print(dataframe.dtypes)
-    print(f"{'':48}\n" * 2)
+
+    # Columns and dtypes
+    color_print(f"\n{indent}Columns and data types:", level="info")
+    for col, dtype in dataframe.dtypes.items():
+        print(f"{indent}  - {col}: {dtype}")
 
     # Column listing
-    print(indent + "DataFrame's Initial Columns:\n")
-    print(f"--------------------------------------")
+    color_print(f"\n{indent}Column names (grouped):", level="info")
     cols = list(dataframe.columns)
     for i in range(0, len(cols), 5):
-        print(cols[i:i+5])
-    print(f"--------------------------------------")
-    print(f"{'':48}")
-    print(f"--------------------------------------")
+        print(indent + "  " + str(cols[i:i + 5]))
 
-    # Data types again
-    print(indent + "\nData Types:\n", dataframe.dtypes)
-    print(indent + f"--------------------------------------")
-    print(f"{'':48}")
-    print(indent + f"--------------------------------------")
+    # Preview rows
+    color_print(f"\n{indent}First 5 rows:", level="info")
+    print(dataframe.head())
 
-    # First rows
-    print("\nFirst few rows:\n", dataframe.head())
-    print(f"{'':48}")
+    color_print(f"\n{indent}Last 5 rows:", level="info")
+    print(dataframe.tail())
 
-    # Summary statistics
-    print(indent + "\nDescriptive statistics (numerical only):")
-    print(f"{'':48}")
-    print(dataframe.describe())
-
-    print(f"{'':48}")
-    print(indent + "*" * 9 + " END OF QUERYING PROBLEM 1. " + "*" * 9)
-    print(indent + f"{'':48}\n" * 2)
+    # Summary stats
+    color_print(f"\n{indent}Descriptive statistics:", level="info")
+    print(dataframe.describe(include='all', datetime_is_numeric=True))

@@ -287,7 +287,7 @@ print(f"{'':48}")
 
 print(
     f"""
-    {indent} We will start to clear all differences and incoinsistencies one by one. For the beginning we can try 
+    {indent} We will start to clear all differences and inconsistencies one by one. For the beginning we can try 
     to translate all spanish words to English. For this purpose  we have custom dictionaty "dict_Es_to_En" 
     and a suctom function that will use this dictionary to translate what needs to be translated
     """

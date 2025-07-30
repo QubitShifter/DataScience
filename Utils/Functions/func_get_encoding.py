@@ -5,33 +5,32 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 200)
 pd.set_option('display.precision', 2)
 
-
 def encoding_pre_check(filepath, read_rows=False):
+    """
+    Detects encoding, prints details, and returns (encoding, dataframe).
+    """
     try:
-        #with open("F:/GitHub/Python/DataScience/05.DataVisualisation/lab/Most_Streamed_Spotify_Songs_2024.csv", 'rb') as f:
         with open(filepath, 'rb') as f:
             raw_data = f.read(100000)
             result = chardet.detect(raw_data)
 
         encoding = result['encoding']
         confidence = result['confidence']
-
-        print(f"Used encoding for loaded dataset is: {encoding} (confidence: {confidence:.2f})")
-
+        print(f"Detected encoding: {encoding} (confidence: {confidence:.2f})")
 
         try:
-            dataframe = pd.read_csv(filepath, encoding=encoding)
-
-            print("CSV file is loaded successfully with detected encoding.")
+            df = pd.read_csv(filepath, encoding=encoding)
+            print("CSV file loaded successfully using detected encoding.")
             if read_rows:
-                print("\n Showing bunch of rows:")
-                print(dataframe.head(5))
+                print("\n Sample rows:\n", df.head(5))
+            return encoding, df
 
         except UnicodeDecodeError as ude:
-            print(f" Encoding Errors while loading file: {ude}")
-
+            print(f"UnicodeDecodeError: {ude}")
         except Exception as e:
-            print(f" Different errors while reading CSV: {e}")
+            print(f"Error while reading CSV: {e}")
 
     except Exception as e:
-        print(f" Failed to open and read file: {e}")
+        print(f"Failed to open/read file: {e}")
+
+    return None, None
