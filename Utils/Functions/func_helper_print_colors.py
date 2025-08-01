@@ -7,7 +7,7 @@ PRINT_COLOR_CONFIG ={
     'debug': Fore.BLUE,
     'success': Fore.GREEN,
     'error': Fore.RED,
-    'gighlight': Fore.MAGENTA,
+    'highlight': Fore.MAGENTA,
     'warning': Fore.YELLOW,
     'default': Fore.WHITE
 }

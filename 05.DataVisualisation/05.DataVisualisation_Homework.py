@@ -2,9 +2,10 @@ import re
 import os
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 import scipy.stats as st
+from Utils.Functions.func_plot_graphs import plot_graphs
 from Utils.Functions.func_helper_print_colors import color_print
 from Utils.Functions.func_helper_query_dataset import query_dataframe
 from Utils.Functions.func_fix_column_names import snake_case
@@ -12,6 +13,7 @@ from Utils.Functions.func_fix_date_format import fix_dates
 from Utils.Functions.func_helper_remove_commas import remove_commas
 from Utils.Functions.func_helper_query_dataset import query_dataframe
 from Utils.Functions.func_read_csv_zipped import read_zipped_csv
+from Utils.Functions.func_helper_clean_numeric_columns import clean_numeric_columns
 from Utils.Functions.func_get_encoding import encoding_pre_check
 
 
@@ -378,3 +380,407 @@ plt.xticks(rotation=45)
 plt.legend(title='Year', bbox_to_anchor=(1.05, 1), loc='upper left')
 plt.tight_layout()
 plt.show()
+
+print(f"{'':48}")
+print(indent + "*" * 9 + " END OF QUERYING PROBLEM 5. " + "*" * 9)
+print(indent + f"{'':48}\n" * 2)
+
+#
+#
+# ########################################################################
+# ############################ 6 PLAYLISTS ###############################
+# ########################################################################
+print(
+    f"""    {indent}*********** PROBLEM 6. PLAYLISTS. ***************
+    {indent}*** CORRELATIONS BETWEEN ADDING A SONGS TO PLAYLISTS. ***
+    {indent}************** PLOT ALL RELATIONSHIPS *******************
+    """
+)
+print(f"{'':48}")
+print(indent + "*" * 9 + " BEGIN COLUMN MANIPULATION " + "*" * 9)
+print(f"{'':48}\n" * 1)
+
+color_print(
+    f"""
+For the purpose pf this task we will create a playlist dict containing
+related columns that we are going to use
+     """
+    , level="info"
+)
+
+playlist_columns = [
+    'spotify_playlist_count',
+    'apple_music_playlist_count',
+    'deezer_playlist_count',
+    'amazon_playlist_count'
+]
+
+playlist_df = spotify_dataset[playlist_columns].copy()
+print(playlist_df)
+
+color_print(
+    f"""
+few problems exists after looking at the 'playlist_df' values.
+Values like '269,802' are comma separated, they will be interpreted as a
+string. ALsi there are NaNs in the columns. In general the 'table' in this 
+format cannot be used for finding correlations or plotting. 
+     """
+    , level="info"
+)
+
+color_print(
+    f"""
+So before starting whatever we want to start numbers should be converted to ints,
+NaNs should be dropped or handled in some other way. 
+     """
+    , level="info"
+)
+print(f"{'':48}")
+color_print(f"lets see original values", level="info")
+for cols in playlist_columns:
+    color_print(f"\n---{cols} (before handling the data)", level="info")
+    print(spotify_dataset[cols].head(10))
+
+playlist_df = spotify_dataset[playlist_columns].copy()
+pd.reset_option('display.float_format')
+for cols in playlist_columns:
+    playlist_df[cols] = (
+        playlist_df[cols]
+        .astype(str)
+        .str.replace(',', '', regex=False)
+        .replace(['nan', 'NaN'], pd.NA)  # Handle both string cases
+    )
+    playlist_df[cols] = pd.to_numeric(playlist_df[cols], errors='coerce')
+
+    color_print(f"\n---{cols} (after handling the data)", level="info")
+    print(playlist_df['spotify_playlist_count'].head(10).to_list())
+    print(playlist_df[cols].head(10))
+
+
+
+color_print(
+    f"""
+The question now is: how to handle NaNs / NAs... In order to be able to 
+visualize or make correlations, we need clean data. Plots and correlations
+dont like NaNs / NAs...   
+     """
+    , level="info"
+)
+
+color_print(
+    f"""
+One alternative way i to replace NaNs with ZERO. Thih is assumption that the 
+song has zero (0) playlists. 
+We can also try Pearson correlation which will handle the NaN
+     """
+    , level="info"
+)
+
+color_print(
+    f"""
+Lets try Pearson with NaNs
+     """
+    , level="info"
+)
+
+NaN_correlation = playlist_df.corr(method='pearson')
+
+plt.figure(figsize=(8, 5))
+sns.heatmap(NaN_correlation, annot=True, cmap='coolwarm', fmt=".2f", vmin=0, vmax=1)
+plt.title("Correlation Matrix (NaN Ignored)")
+plt.xticks(rotation=45, ha='right', fontsize=10)
+plt.yticks(fontsize=10)
+plt.tight_layout()
+plt.show()
+
+
+color_print(
+    f"""
+So, how can we interpretate the result in this correlation map..
+apple_music <-> deezer - Corelation 0.78 -> strong positive relationship: When a particular song is in many Apple playlists, it is often also in many Deezer playlists.
+spotify <-> apple_music - Correlation 0.69 -> moderately strong: May be popular songs on Spotify playlists are also  on Apple Music.
+deezer<-> amazon - Correlation 0.57 -> moderate relationship: there is some overlap, but it is rather weak
+spotify <-> amazon - Correlation 0.38 -> weak correlation
+
+     """
+    , level="info"
+)
+
+color_print(
+    f"""
+This can mean that correlation in not equal to causation.. we cannot say loudly that one platform affects another directly.
+Bit a point to make, this is only linear correlation, there might be a differences in correlation with some other methods.
+also we are dealing with NaNs. 
+NaN handling matters — we might get slightly different correlations if we replace NaNs with 0s.
+     """
+    , level="info"
+)
+color_print(
+    f"""
+Lets test NaNs repalced with Zeroes
+     """
+    , level="info"
+)
+
+playlist_df_zero = playlist_df.fillna(0)
+correlation_matrix_zeroes = playlist_df_zero.corr(method='pearson')
+
+plt.figure(figsize=(10, 6))
+sns.heatmap(correlation_matrix_zeroes, annot=True, cmap='coolwarm', fmt=".2f", vmin=0, vmax=1)
+plt.suptitle("Correlation Matrix (NaNs Replaced with Zeroes)")
+plt.xticks(rotation=45, ha='right', fontsize=10)
+plt.yticks(fontsize=10)
+plt.tight_layout()
+plt.show()
+
+
+color_print(
+    f"""
+Lets try to compare both methods and find the differences
+     """
+    , level="info"
+)
+
+fig, axes = plt.subplots(1, 2, figsize=(16, 6), sharey=True)
+sns.heatmap(NaN_correlation, ax=axes[0], annot=True, cmap="coolwarm", vmin=-1, vmax=1, fmt=".2f")
+axes[0].set_title("Correlation (with NaNs)")
+
+sns.heatmap(correlation_matrix_zeroes, ax=axes[1], annot=True, cmap="coolwarm", vmin=-1, vmax=1, fmt=".2f")
+axes[1].set_title("Correlation (NaNs replaced with 0)")
+
+plt.tight_layout()
+plt.show()
+
+
+difference_matrix = correlation_matrix_zeroes - NaN_correlation
+difference = NaN_correlation.copy()
+
+for col in NaN_correlation.columns:
+    for row in NaN_correlation.index:
+        val_nan = NaN_correlation.loc[row, col]
+        val_zero = correlation_matrix_zeroes.loc[row, col]
+        diff = val_zero - val_nan
+        difference.loc[row, col] = f"{val_nan}:.2f -> {val_zero:.2f} (diff {diff:+.2f})"
+
+color_print("\n Correlation Comparison between bot methods (NaNs vs Zeroes):\n", level="highlight")
+print(difference)
+
+
+color_print(
+    f"""
+We can try to find % of missing values per column
+     """
+    , level="highlight"
+)
+print(f"{'':48}")
+persent_of_missing_values = playlist_df.isna().mean() * 100
+color_print(
+    f"""
+Percentage of missing values per column:
+     """
+    , level="highlight"
+)
+print(f"{'':48}")
+print(persent_of_missing_values)
+color_print(
+    f"""
+What we see is that Spotify has almost no missing data.
+Apple has small amount of missing data, but still can make a difference in some stats.
+Amazon and Deezer are between 20 and 25 % which is more significant 
+     """
+    , level="highlight"
+)
+
+color_print(
+    f"""
+So, replacing NaNs with 0 here is introducing some artificial inflation of correlation, 
+especially with Spotify or Apple data that has low missingness.
+
+So if we want stats accuracy it is better to stick with NaNs
+     """
+    , level="warning"
+)
+
+print(f"{'':48}")
+print(indent + "*" * 9 + " END OF QUERYING PROBLEM 6. " + "*" * 9)
+print(indent + f"{'':48}\n" * 2)
+
+#
+#
+# ########################################################################
+# ############################# 7 YOUTUBE ################################
+# ########################################################################
+print(
+    f"""    {indent}****** PROBLEM 7. YOUTUBE VIEWS AND LIKES. ***********
+    {indent}******** RELATIONSHIP BETWEEN YOUTUBE VIRES AND LIKES. *******
+    {indent}****** WHAT IS THE MEAN YOUTUBE VIEWS-TO-LIKE RATIO **********
+    """
+)
+print(f"{'':48}")
+print(indent + "*" * 9 + " BEGIN COLUMN MANIPULATION " + "*" * 9)
+print(f"{'':48}\n" * 1)
+
+youtube_playlist_columns = [
+    'youtube_views',
+    'youtube_likes',
+    'youtube_playlist_reach'
+]
+
+youtube_playlist_df = spotify_dataset[youtube_playlist_columns].copy()
+print(youtube_playlist_df)
+
+color_print(
+    f"""
+Again we will need to clean commas and mace columns numerical. 
+Well.. will make a func to convert commas columns to numeric columns since this is second time 
+that i need to do the same thing just for different columns. -> func: clean_numeric_columns
+     """
+    , level="info"
+)
+
+youtube_playlist_numeric_columns = clean_numeric_columns(youtube_playlist_df, youtube_playlist_columns)
+print(youtube_playlist_numeric_columns)
+
+color_print(
+    f"""
+Now that we have numeric values in our columns, lets plot
+We can use scatter plot to show spread of data points for views and likes.
+This will help with better visualisation
+     """
+    , level="info"
+)
+
+
+color_print(
+    f"""
+So this is N-tieth time to write the same plt.whatever plot we want.. 
+This means its better to have a plotting function...
+     """
+    , level="info"
+)
+
+
+plt.figure(figsize=(10, 6))
+sns.set(style="whitegrid")
+
+# Scatter plot with regression line
+sns.regplot(
+    data=youtube_playlist_numeric_columns,
+    x="youtube_views",
+    y="youtube_likes",
+    scatter_kws={'alpha': 0.5},
+    line_kws={'color': 'red'}
+)
+
+# Optional: Log scale for better spread if needed
+plt.xscale('log')
+plt.yscale('log')
+
+# Labels and title
+plt.xlabel("YouTube Views (log scale)")
+plt.ylabel("YouTube Likes (log scale)")
+plt.title("Relationship Between YouTube Views and Likes")
+
+plt.tight_layout()
+plt.show()
+
+
+plot_graphs(
+    df=youtube_playlist_numeric_columns,
+    x_col='youtube_views',
+    y_col='youtube_likes',
+    plot_type='scatter',
+    regression=True,
+    title='Youtube Views vs Likes Regression'
+)
+
+
+plot_graphs(
+    df=youtube_playlist_numeric_columns,
+    x_col='youtube_views',
+    y_col='youtube_likes',
+    plot_type='scatter',
+    regression=True,
+    title='YouTube Views vs Likes with Correlation',
+    xlabel='YouTube Views',
+    ylabel='YouTube Likes',
+    log_scale=True,
+    show_corr=True,
+    remove_outliers=True,
+    outlier_method='iqr',
+    save_path='views_vs_likes_plot.png'
+)
+
+
+color_print(
+    f"""
+What we can say while staring at the graph. We have regression line that estimates the overall trend.
+We can say that as views increase, likes generally increase too — we say that we have positive correlation.
+The line in curved which means that probably likes increase non linearly with views.
+     """
+    , level="info"
+)
+
+color_print(
+    f"""
+We can also notice that there are tracks with huge views but relatively low likes, 
+which pull the regression line slightly down.
+There are also a few very low-liked tracks with high views might be anomalies, or just a really BAD songs
+     """
+    , level="info"
+)
+
+youtube_ratio_df = youtube_playlist_numeric_columns.copy()
+youtube_ratio_df = youtube_ratio_df[youtube_ratio_df['youtube_likes'] > 0]
+
+youtube_ratio_df['views_to_likes_ratio'] = youtube_ratio_df['youtube_views'] / youtube_ratio_df['youtube_likes']
+
+youtube_mean_ration = youtube_ratio_df['views_to_likes_ratio'].mean()
+youtube_median_ration = youtube_ratio_df['views_to_likes_ratio'].median()
+
+color_print(f"Youtube mean ratio: {youtube_mean_ration:,.2f}", level="info")
+color_print(f"Youtube median ratio: {youtube_median_ration:,.2f}", level="info")
+
+
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type = 'boxplot',
+    x_col='views_to_likes_ratio',
+    y_col=None,
+    title='Distribution of YouTube Views-to-Likes Ratio',
+    ylabel='Views per Like',
+    remove_outliers=False
+)
+
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type = 'boxplot',
+    x_col=None,
+    y_col='views_to_likes_ratio',
+    title='Distribution of YouTube Views-to-Likes Ratio',
+    ylabel='Views per Like',
+    log_scale=True,
+    remove_outliers=False
+)
+
+
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type='hist',
+    x_col='views_to_likes_ratio',
+    title='Distribution of YouTube Views-to-Likes Ratio',
+    xlabel="Views per Like",
+    ylabel='Frequency"',
+    figsize=(10, 6)
+)
+
+color_print(
+    f"""
+това което виждаме на графиката, е един пик в ляво, при това доста голям, което може да каже, че по-голямата част от стойностите са
+доста ниски ( много видеа имат доста ниска отношение 'view-to-likes'.
+Това може и да е проблем на начина по-който плотваме данните.
+     """
+    , level="info"
+)
+
+#chi-square
