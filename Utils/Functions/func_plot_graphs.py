@@ -33,19 +33,20 @@ def plot_graphs(
     # -------------------------------
     # Outlier Removal
     # -------------------------------
-    if remove_outliers and x_col and y_col:
-        if outlier_method == 'iqr':
-            for col in [x_col, y_col]:
-                Q1 = data[col].quantile(0.25)
-                Q3 = data[col].quantile(0.75)
-                IQR = Q3 - Q1
-                lower_bound = Q1 - 1.5 * IQR
-                upper_bound = Q3 + 1.5 * IQR
-                data = data[(data[col] >= lower_bound) & (data[col] <= upper_bound)]
-
-        elif outlier_method == 'zscore':
-            z_scores = np.abs(zscore(data[[x_col, y_col]].dropna()))
-            data = data[(z_scores < 3).all(axis=1)]
+    if remove_outliers:
+        cols_to_check = [x_col] if plot_type in ['hist', 'histogram'] else [x_col, y_col]
+        if all(col in data.columns for col in cols_to_check):
+            if outlier_method == 'iqr':
+                for col in cols_to_check:
+                    Q1 = data[col].quantile(0.25)
+                    Q3 = data[col].quantile(0.75)
+                    IQR = Q3 - Q1
+                    lower_bound = Q1 - 1.5 * IQR
+                    upper_bound = Q3 + 1.5 * IQR
+                    data = data[(data[col] >= lower_bound) & (data[col] <= upper_bound)]
+            elif outlier_method == 'zscore':
+                z_scores = np.abs(zscore(data[cols_to_check].dropna()))
+                data = data[(z_scores < 3).all(axis=1)]
 
     # -------------------------------
     # Start Plot
@@ -67,9 +68,8 @@ def plot_graphs(
                 data=data,
                 x=x_col,
                 y=y_col,
-                alpha=alpha
+        alpha=alpha
             )
-
         if log_scale:
             plt.xscale('log')
             plt.yscale('log')
@@ -79,10 +79,12 @@ def plot_graphs(
 
     elif plot_type == 'bar':
         sns.barplot(data=data, x=x_col, y=y_col, ci=None)
-
-    elif plot_type == 'hist':
+        plt.xticks(rotation=45)
+    elif plot_type in ['hist', 'histogram']:
         if x_col:
             sns.histplot(data=data, x=x_col, bins=50, kde=True)
+            if log_scale:
+                plt.xscale('log')
         else:
             raise ValueError("x_col must be specified for histogram.")
 
@@ -99,7 +101,7 @@ def plot_graphs(
     # Labels & Titles
     # -------------------------------
     plt.xlabel(xlabel or x_col)
-    plt.ylabel(ylabel or y_col)
+    plt.ylabel(ylabel or ("Frequency" if plot_type in ['hist', 'histogram'] else y_col))
     plt.title(title or f"{plot_type.title()} Plot")
 
     # -------------------------------
@@ -119,12 +121,10 @@ def plot_graphs(
 
     plt.tight_layout()
 
-    # Save if requested
     if save_path:
         plt.savefig(save_path)
 
     plt.show()
 
-    # Optionally return cleaned data
     if return_data:
         return data

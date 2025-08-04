@@ -1,10 +1,13 @@
 import re
 import os
+import sys
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from scipy.stats import skew
 import matplotlib.pyplot as plt
 import scipy.stats as st
+from scipy.stats import chisquare
 from Utils.Functions.func_plot_graphs import plot_graphs
 from Utils.Functions.func_helper_print_colors import color_print
 from Utils.Functions.func_helper_query_dataset import query_dataframe
@@ -19,6 +22,9 @@ from Utils.Functions.func_get_encoding import encoding_pre_check
 
 indent = " " * 0
 base_path = "F:/GitHub/DataScience"
+
+# f = open('output_log.txt', 'w', encoding='utf-8')
+# sys.stdout = f
 
 # Loading dataset config CSV
 config_path = os.path.join(base_path, "Utils", "Configs", "datasets_config.csv")
@@ -235,7 +241,7 @@ Well not exactly, may be we forgot to overwrite the dataset, so let's do it agai
 
 spotify_dataset['release_date'] = pd.to_datetime(
     spotify_dataset['release_date'],
-    errors='coerce'  # will convert invalid dates to NaT
+    errors='coerce'  # will convert invalid dates to NaN
 )
 
 print(spotify_dataset['release_date'])
@@ -263,6 +269,7 @@ spotify_songs_per_year = spotify_dataset['release_year'].value_counts().sort_ind
 print(spotify_songs_per_year)
 
 
+
 plt.figure(figsize=(12, 6))
 sns.barplot(x=spotify_songs_per_year.index, y=spotify_songs_per_year.values, palette='viridis')
 plt.title("Number of Sons per Year")
@@ -274,12 +281,54 @@ plt.show()
 
 color_print(
     f"""
-Plot shows significant drop for released songs for 2024, compared to 2023.
+Plot shows significant differences in released songs for 2024, compared to 2023.
 They are just a song shorter than year 2022.
 Lets see the distribution per month
      """
     , level="info"
 )
+
+color_print(
+    f"""
+One possible reason is that either all artists got killed by CORONA virus or the year is not full. 
+let's see...
+     """
+    , level="info"
+)
+
+spotify_dataset['release_date'] = pd.to_datetime(spotify_dataset['release_date'], errors='coerce')
+spotify_dataset['release_year'] = spotify_dataset['release_date'].dt.year
+spotify_dataset['release_month'] = spotify_dataset['release_date'].dt.month
+
+years_summary = spotify_dataset.groupby('release_year')['release_month'].agg(
+    months_count=lambda x: x.nunique(),  # number of unique months in that year
+    max_month=lambda x: x.max()           # maximum month number for that year
+).reset_index()
+
+print(years_summary)
+
+
+plot_graphs(
+    df=years_summary,
+    plot_type='scatter',
+    x_col='release_year',
+    y_col='months_count',
+    title='Number of Months with Data per Year',
+    xlabel='Year',
+    ylabel='Number of Months',
+    alpha=0.8,
+    line_color='blue',
+    figsize=(10,6)
+)
+
+
+color_print(
+    f"""
+part os our initial hyphotesis got confirmed by the grah. We only have 6 months for  year 2024
+     """
+    , level="info"
+)
+
 
 color_print(
     f"""
@@ -289,6 +338,25 @@ or to use names like (jan, feb, march) and so on ...
      """
     , level="info"
 )
+
+
+print(f"{'':48}\n")
+color_print(
+    f"""
+We can use pivot table to count the songs per year... counting
+Number of song per each year:
+     """
+    , level="info"
+)
+
+
+spotify_songs_released_per_year = spotify_dataset.pivot_table(
+    index='release_year',
+    values='track',
+    aggfunc='count'
+).reset_index().rename(columns={'track': 'song_count'})
+
+print(spotify_songs_released_per_year)
 
 
 spotify_dataset['release_month'] = spotify_dataset['release_date'].dt.month
@@ -313,7 +381,6 @@ Now that we have songs per year and songs per months let's graph...
 )
 
 
-
 plt.figure(figsize=(12, 6))
 sns.barplot(x=spotify_songs_per_month.index, y=spotify_songs_per_month.values, palette='viridis')
 plt.title("Number of Sons per Month")
@@ -322,6 +389,32 @@ plt.ylabel("Number of Songs")
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
+
+
+color_print(
+    f"""
+We can you chi-square to find if songs are released equally accross years, or 
+if there is some signifficant difference
+     """
+    , level="info"
+)
+
+
+spotify_songs_released_per_year = spotify_dataset.groupby('release_year').size().sort_index()
+spotyfy_chi_expected_observation = [spotify_songs_released_per_year.mean()] * len(spotify_songs_released_per_year)
+spotify_chi_stats, p_value = chisquare(f_obs=spotify_songs_released_per_year.values, f_exp=spotyfy_chi_expected_observation)
+print(f"Chi-square stats: {spotify_chi_stats:.2f}, p_value: {p_value:.4f}")
+
+color_print(
+    f"""
+Chi-square result indicates that the number of songs released per year significantly deviates from a uniform distribution.
+In other words, songs are not released evenly across years. Some years have far more releases than others.
+
+This could be related to trends in music production, not consistent data collection , or the growth of Spotify’s catalog over time.
+Since the p-value is well below typical significance levels- 0.05, we reject the null hypothesis that release counts are uniform.
+     """
+    , level="info"
+)
 
 
 color_print(
@@ -685,14 +778,14 @@ plt.tight_layout()
 plt.show()
 
 
-plot_graphs(
-    df=youtube_playlist_numeric_columns,
-    x_col='youtube_views',
-    y_col='youtube_likes',
-    plot_type='scatter',
-    regression=True,
-    title='Youtube Views vs Likes Regression'
-)
+# plot_graphs(
+#     df=youtube_playlist_numeric_columns,
+#     x_col='youtube_views',
+#     y_col='youtube_likes',
+#     plot_type='scatter',
+#     regression=True,
+#     title='Youtube Views vs Likes Regression'
+# )
 
 
 plot_graphs(
@@ -784,3 +877,293 @@ color_print(
 )
 
 #chi-square
+
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type='histogram',
+    x_col='views_to_likes_ratio',
+    title='Log-Scaled Distribution of Views-to-Likes Ratio',
+    xlabel='Views per Like (log scale)',
+    ylabel='Frequency',
+    log_scale=True
+)
+
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type='histogram',
+    x_col='views_to_likes_ratio',
+    title='Distribution Without Outliers',
+    ylabel='Frequency',
+    remove_outliers=True,
+    outlier_method='iqr'
+)
+
+# Step 1: Prepare the DataFrame
+youtube_ratio_df = youtube_playlist_numeric_columns.copy()
+youtube_ratio_df = youtube_ratio_df[youtube_ratio_df['youtube_likes'] > 0]
+youtube_ratio_df['views_to_likes_ratio'] = youtube_ratio_df['youtube_views'] / youtube_ratio_df['youtube_likes']
+
+# Filter out non-positive ratios for log
+youtube_ratio_df = youtube_ratio_df[youtube_ratio_df['views_to_likes_ratio'] > 0]
+youtube_ratio_df['log_ratio'] = np.log10(youtube_ratio_df['views_to_likes_ratio'])
+
+# Step 2: Plot Raw Histogram
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type='hist',
+    x_col='views_to_likes_ratio',
+    title='Raw Distribution of Views-to-Likes Ratio',
+    xlabel='Views per Like',
+    ylabel='Frequency',
+    remove_outliers=False
+)
+
+# Step 3: Plot Log-Scaled Histogram
+plot_graphs(
+    df=youtube_ratio_df,
+    plot_type='hist',
+    x_col='log_ratio',
+    title='Log10 Distribution of Views-to-Likes Ratio',
+    xlabel='log10(Views per Like)',
+    ylabel='Frequency',
+    remove_outliers=False
+)
+
+print(f"{'':48}")
+print(indent + "*" * 9 + " END OF QUERYING PROBLEM 5. " + "*" * 9)
+print(indent + f"{'':48}\n" * 2)
+
+#
+#
+# #########################################################################
+# ########################### 8 TICKTOK STUFF #############################
+# #########################################################################
+print(
+    f"""    {indent}*********** PROBLEM 8. TICKTOK. ***************
+    {indent}*** SHOW THE MOST POPULAR SONG RELEASE BY TICKTOCK EVERY YEAR ***
+    {indent}********* WHICH YEAR OEACKED THE MOST TICKTOCK VIEWS ************
+    """
+)
+print(f"{'':48}")
+print(indent + "*" * 9 + " BEGIN COLUMN MANIPULATION " + "*" * 9)
+print(f"{'':48}\n" * 1)
+
+color_print(
+    f"""
+Construct TickTok column set
+     """
+    , level="info"
+)
+
+
+ticktok_playlist_columns = [
+    'release_date',
+    'tiktok_posts',
+    'tiktok_likes',
+    'tiktok_views'
+]
+
+ticktok_playlist_columns_df = spotify_dataset[ticktok_playlist_columns].copy()
+print(ticktok_playlist_columns_df )
+
+color_print(
+    f"""
+Lest do some grouping by year and TickTok views  
+     """
+    , level="info"
+)
+
+
+TickTok_PerYear = spotify_dataset.groupby('release_year')['tiktok_views'].sum().reset_index()
+print(TickTok_PerYear)
+
+color_print(
+    f"""
+what we can see is that it looks like 'ticktok_views' column has string with multiple numbers separated by commas. 
+So most likly (sum) wont work as expected
+     """
+    , level="info"
+)
+
+for col in ticktok_playlist_columns:
+    color_print(f"{col}: {spotify_dataset[col].dtype}")
+
+
+color_print(
+    f"""
+as we can wee these three columns are type 'object'. This had to be sorted out with first dataset observatoin.
+But since it was not. will have to handle it now so any meaningful analysis or plotting could be made
+     """
+    , level="info"
+)
+
+color_print(
+    f"""
+ot's behind KB device problem.. i did not take an ccount that column is an object.
+So trying to sum()  just make Pandas to concatenate everything in a string
+
+     """
+    , level="info"
+)
+
+
+color_print(
+    f"""
+Fixing that ...
+
+     """
+    , level="info"
+)
+
+spotify_dataset['tiktok_views'] = spotify_dataset['tiktok_views'].str.replace(',', '', regex=False)
+spotify_dataset['tiktok_views'] = pd.to_numeric(spotify_dataset['tiktok_views'], errors='coerce')
+
+color_print(
+    f"""
+We are taking the year from 'release_date' column
+
+     """
+    , level="info"
+)
+
+spotify_dataset['release_date'] = pd.to_datetime(spotify_dataset['release_date'], errors='coerce')
+ticktok_year = spotify_dataset['release_year'] = spotify_dataset['release_date'].dt.year
+print(ticktok_year)
+
+color_print(
+    f"""
+Now that we have only years we can group by ith..
+     """
+    , level="info"
+)
+
+tiktock_vews_per_year = spotify_dataset.groupby('release_year')['tiktok_views'].sum().reset_index()
+print(tiktock_vews_per_year)
+
+color_print(
+    f"""
+According to the internet and note in assigment TikTok was released Sept. 2016, so we 
+probably have to filter the data
+     """
+    , level="info"
+)
+
+TickTok_PerYear = spotify_dataset[spotify_dataset['release_date'] >= '2016-09-01']
+TickTok_PerYear = TickTok_PerYear[spotify_dataset['release_year'] >= 2016]
+
+
+color_print(
+    f"""
+Lets plot result to see what we can see
+     """
+    , level="info"
+)
+
+plot_graphs(
+    df=TickTok_PerYear,
+    plot_type='bar',
+    x_col='release_year',
+    y_col='tiktok_views',
+    title='Total TikTok views by Release Year',
+    xlabel='Release Year',
+    ylabel='Total TikTok Views',
+    log_scale=False,
+    regression=False,
+    alpha=0.8,
+    figsize=(18, 6),
+)
+
+
+color_print(
+    f"""
+To determine the most popular song and exactly ow much more popular is it
+we will drop rows with missing view data, if any
+     """
+    , level="info"
+)
+tiktok_dropped_missing_value = spotify_dataset.dropna(subset=['tiktok_views'])
+tiktok_mean_values = tiktok_dropped_missing_value.groupby('release_year')['tiktok_views'].mean().reset_index(name='mean_values')
+
+color_print(
+    f"""
+max views per year
+     """
+    , level="info"
+)
+
+idx = tiktok_dropped_missing_value.groupby('release_year')['tiktok_views'].idxmax()
+print(idx)
+
+color_print(
+    f"""
+well we need to cut off all the data from before seltember 2016, the birthdate of tiktok
+     """
+    , level="info"
+)
+
+tiktok_dataframe = spotify_dataset.copy()
+tiktok_dataframe['release_date'] = pd.to_datetime(tiktok_dataframe['release_date'], errors='coerce')
+tiktok_dataframe = tiktok_dataframe[tiktok_dataframe['release_date'] >= '2016-08-01']
+print(tiktok_dataframe)
+
+color_print(
+    f"""
+dropping NaNs and extracting release year
+     """
+    , level="info"
+)
+
+tiktok_dataframe = tiktok_dataframe.dropna(subset=['tiktok_views'])
+tiktok_dataframe['release_date'] = tiktok_dataframe['release_date'].dt.year
+
+color_print(
+    f"""
+finding mean of tiktok views per year
+     """
+    , level="info"
+)
+
+tiktok_mean_views = tiktok_dataframe.groupby('release_date')['tiktok_views'].mean().reset_index(name='tiktok_mean_views')
+print(tiktok_mean_views)
+
+color_print(
+    f"""
+finding most popular tiktok tracks
+     """
+    , level="info"
+)
+
+idx = tiktok_dataframe.groupby('release_year')['tiktok_views'].idxmax()
+
+top_tiktok_songs = tiktok_dataframe.loc[idx, ['release_year', 'track', 'artist', 'tiktok_views']]
+top_tiktok_songs = top_tiktok_songs.rename(columns={'tiktok_views': 'max_views'})
+
+print(top_tiktok_songs.sort_values('release_year'))
+
+color_print(
+    f"""
+Let see how much more popular the most-viewed tiktok song is compared to the average for its release year.
+     """
+    , level="info"
+)
+
+tiktok_mean_values = tiktok_dataframe.groupby('release_year')['tiktok_views'].mean().reset_index()
+tiktok_mean_values = tiktok_mean_values.rename(columns={'tiktok_views': 'mean_views'})
+
+
+tiktok = pd.merge(top_tiktok_songs, tiktok_mean_values, on='release_year')
+tiktok['ratio'] = tiktok['max_views'] / tiktok['mean_views']
+
+
+tiktok = tiktok.sort_values(by='release_year').reset_index(drop=True)
+display_columns = ['release_year', 'track', 'artist', 'max_views', 'mean_views', 'ratio']
+print(tiktok[display_columns].round(2))
+
+color_print(
+    f"""
+what we are seeing is that he song "Oh No" by Kreepa (2019) was 45 times more visited/viewed than the average 2019 release 
+— this looks like the biggest difference.
+Beyonce  "TEXAS HOLD 'EM" (2024) is 25.82 times — a bigest tiktok success this year.
+     """
+    , level="info"
+)

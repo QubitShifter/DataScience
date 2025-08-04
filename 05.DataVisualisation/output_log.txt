@@ -1,0 +1,908 @@
+[35m   
+    ********** PROBLEM 1. READ UNZIPPED CSV FILE. *********
+    [0m
+[36m   
+ Reading first few rows:
+[0m
+[36m   Found CSV in ZIP: Most Streamed Spotify Songs 2024.csv[0m
+[36m   Detected encoding: ISO-8859-1[0m
+[36m   CSV loaded successfully.[0m
+                                                
+                        Track                                    Album Name          Artist Release Date          ISRC All Time Rank  Track Score Spotify Streams Spotify Playlist Count  \
+0         MILLION DOLLAR BABY                  Million Dollar Baby - Single   Tommy Richman    4/26/2024  QM24S2402528             1        725.4     390,470,936                 30,716   
+1                 Not Like Us                                   Not Like Us  Kendrick Lamar     5/4/2024  USUG12400910             2        545.9     323,703,884                 28,113   
+2  i like the way you kiss me                    I like the way you kiss me         Artemas    3/19/2024  QZJ842400387             3        538.4     601,309,283                 54,331   
+3                     Flowers                              Flowers - Single     Miley Cyrus    1/12/2023  USSM12209777             4        444.9   2,031,280,633                269,802   
+4                     Houdini                                       Houdini          Eminem    5/31/2024  USUG12403398             5        423.3     107,034,922                  7,223   
+5                 Lovin On Me                                   Lovin On Me     Jack Harlow   11/10/2023  USAT22311371             6        410.1     670,665,438                105,892   
+6            Beautiful Things                              Beautiful Things    Benson Boone    1/18/2024  USWB12307016             7        407.2     900,158,751                 73,118   
+7                   Gata Only                                     Gata Only      FloyyMenor     2/2/2024  QZL382406049             8        375.8     675,079,153                 40,094   
+8        Danza Kuduro - Cover  ýýýýýýýýýýýýýýýýýýýýý - ýýýýýýýýýýýýýýýýýý -   MUSIC LAB JPN     6/9/2024  TCJPA2463708             9        355.7   1,653,018,119                      1   
+9  BAND4BAND (feat. Lil Baby)                    BAND4BAND (feat. Lil Baby)     Central Cee    5/23/2024  USSM12404354            10        330.6      90,676,573                 10,400   
+
+  Spotify Playlist Reach  Spotify Popularity  YouTube Views YouTube Likes TikTok Posts   TikTok Likes    TikTok Views YouTube Playlist Reach  Apple Music Playlist Count AirPlay Spins SiriusXM Spins  \
+0            196,631,588                92.0     84,274,754     1,713,126    5,767,700    651,565,900   5,332,281,936            150,597,040                       210.0        40,975            684   
+1            174,597,137                92.0    116,347,040     3,486,739      674,700     35,223,547     208,339,025            156,380,351                       188.0        40,778              3   
+2            211,607,669                92.0    122,599,116     2,228,730    3,025,400    275,154,237   3,369,120,610            373,784,955                       190.0        74,333            536   
+3            136,569,078                85.0  1,096,100,899    10,629,796    7,189,811  1,078,757,968  14,603,725,994          3,351,188,582                       394.0     1,474,799          2,182   
+4            151,469,874                88.0     77,373,957     3,670,188       16,400            NaN             NaN            112,763,851                       182.0        12,185              1   
+5            175,421,034                83.0    131,148,091     1,392,593    4,202,367    214,943,489   2,938,686,633          2,867,222,632                       138.0       522,042          4,654   
+6            201,585,714                86.0    308,723,145     4,120,760          NaN     29,584,940     534,915,313          4,601,579,812                       280.0       383,478            429   
+7            211,236,940                92.0    228,382,568     1,439,495    3,500,000    338,546,668   3,804,584,163          2,112,581,620                       160.0        17,221             30   
+8                     15                 NaN            NaN           NaN          NaN            NaN             NaN                    NaN                         NaN           NaN            NaN   
+9            184,199,419                86.0     32,735,244       988,682      325,800    121,574,500     974,656,200            174,706,874                       191.0         3,823            117   
+
+   Deezer Playlist Count Deezer Playlist Reach  Amazon Playlist Count Pandora Streams Pandora Track Stations Soundcloud Streams Shazam Counts  TIDAL Popularity  Explicit Track  
+0                   62.0            17,598,718                  114.0      18,004,655                 22,931          4,818,457     2,669,262               NaN               0  
+1                   67.0            10,422,430                  111.0       7,780,028                 28,444          6,623,075     1,118,279               NaN               1  
+2                  136.0            36,321,847                  172.0       5,022,621                  5,639          7,208,651     5,285,340               NaN               0  
+3                  264.0            24,684,248                  210.0     190,260,277                203,384                NaN    11,822,942               NaN               0  
+4                   82.0            17,660,624                  105.0       4,493,884                  7,006            207,179       457,017               NaN               1  
+5                   86.0            17,167,254                  152.0     138,529,362                 50,982          9,438,601     4,517,131               NaN               1  
+6                  168.0            48,197,850                  154.0      65,447,476                 57,372                NaN     9,990,302               NaN               0  
+7                   87.0            33,245,595                   53.0       3,372,428                  5,762                NaN     6,063,523               NaN               1  
+8                    NaN                   NaN                    NaN             NaN                    NaN                NaN           NaN               NaN               1  
+9                   78.0            10,800,098                   92.0       1,005,626                    842          3,679,709       666,302               NaN               1  
+[35m                                                   [0m
+[35m   ********* END OF QUERYING PROBLEM 1. *********[0m
+[35m                                                   
+                                                
+[0m
+[35m   
+    ********** PROBLEM 2. OBSERVATIONS AND FEATURES. *********
+    ********** Ensure all data has been read correctly; check the data types.********
+    ********** Give the columns better names. Use `apply()`. **************
+    ********** Get rid of any unnecessary ones. *************
+    [0m
+[35m   
+********* BEGIN COLUMN MANIPULATION *********
+[0m
+[36m   DataFrame. Initial Columns before renaming:
+[0m
+[36m       Encoding check:[0m
+[36m        Filepath: F:/GitHub/DataScience/05.DataVisualisation/lab/Most_Streamed_Spotify_Songs_2024.csv[0m
+[36m        Encoding: ISO-8859-1[0m
+[36m        Total lines in file (including header): 4601[0m
+[36m        Rows loaded in DataFrame: 4600[0m
+[36m   
+    Dataset Summary
+    --------------------------------------------------[0m
+[36m        DataFrame dimensions: (4600, 29)[0m
+                                                
+[33m        Missing values per column:[0m
+                                                
+Artist                           5
+Spotify Streams                113
+Spotify Playlist Count          70
+Spotify Playlist Reach          72
+Spotify Popularity             804
+YouTube Views                  308
+YouTube Likes                  315
+TikTok Posts                  1173
+TikTok Likes                   980
+TikTok Views                   981
+YouTube Playlist Reach        1009
+Apple Music Playlist Count     561
+AirPlay Spins                  498
+SiriusXM Spins                2123
+Deezer Playlist Count          921
+Deezer Playlist Reach          928
+Amazon Playlist Count         1055
+Pandora Streams               1106
+Pandora Track Stations        1268
+Soundcloud Streams            3333
+Shazam Counts                  577
+TIDAL Popularity              4600
+dtype: int64
+                                                
+[33m       - Duplicate rows: 4[0m
+[33m         Duplicate entries preview (subset columns):[0m
+                 Track        Album Name         Artist Release Date          ISRC All Time Rank  Track Score Spotify Streams Spotify Playlist Count Spotify Playlist Reach  Spotify Popularity  \
+2449  Tennessee Orange  Tennessee Orange  Megan Moroney     9/2/2022  TCAGJ2289254         2,424         28.9     227,893,586                 28,139             12,480,714                73.0   
+2450  Tennessee Orange  Tennessee Orange  Megan Moroney     9/2/2022  TCAGJ2289254         2,424         28.9     227,893,586                 28,139             12,480,714                73.0   
+3447            Dembow            Dembow    Danny Ocean    12/8/2017  USWL11700269         3,441         23.3     579,189,526                 60,397             11,805,084                65.0   
+3450            Dembow            Dembow    Danny Ocean    12/8/2017  USWL11700269         3,441         23.3     579,189,526                 60,397             11,805,084                65.0   
+
+     YouTube Views YouTube Likes TikTok Posts TikTok Likes TikTok Views YouTube Playlist Reach  Apple Music Playlist Count AirPlay Spins SiriusXM Spins  Deezer Playlist Count Deezer Playlist Reach  \
+2449    30,913,276       159,791       77,661   13,324,305  117,505,652            238,206,228                        33.0       129,172             34                    5.0                 1,370   
+2450    30,913,276       159,791       77,661   13,324,305  117,505,652            238,206,228                        33.0       129,172             34                    5.0                 1,370   
+3447   828,853,696     3,086,157       84,450   21,202,350  158,504,854            199,705,679                        34.0         5,406              9                   20.0                37,649   
+3450   828,853,696     3,086,157       84,450   21,202,350  158,504,854            199,705,679                        34.0         5,406              9                   20.0                37,649   
+
+      Amazon Playlist Count Pandora Streams Pandora Track Stations Soundcloud Streams Shazam Counts  TIDAL Popularity  Explicit Track  
+2449                   49.0      56,972,562                 26,968          1,336,043       708,143               NaN               0  
+2450                   49.0      56,972,562                 26,968          1,336,043       708,143               NaN               0  
+3447                   12.0       6,723,858                  7,832                NaN     1,619,550               NaN               0  
+3450                   12.0       6,723,858                  7,832                NaN     1,619,550               NaN               0  
+                                                
+[36m   
+    Columns and data types:[0m
+      - Track: object
+      - Album Name: object
+      - Artist: object
+      - Release Date: object
+      - ISRC: object
+      - All Time Rank: object
+      - Track Score: float64
+      - Spotify Streams: object
+      - Spotify Playlist Count: object
+      - Spotify Playlist Reach: object
+      - Spotify Popularity: float64
+      - YouTube Views: object
+      - YouTube Likes: object
+      - TikTok Posts: object
+      - TikTok Likes: object
+      - TikTok Views: object
+      - YouTube Playlist Reach: object
+      - Apple Music Playlist Count: float64
+      - AirPlay Spins: object
+      - SiriusXM Spins: object
+      - Deezer Playlist Count: float64
+      - Deezer Playlist Reach: object
+      - Amazon Playlist Count: float64
+      - Pandora Streams: object
+      - Pandora Track Stations: object
+      - Soundcloud Streams: object
+      - Shazam Counts: object
+      - TIDAL Popularity: float64
+      - Explicit Track: int64
+[36m   
+    Column names (grouped):[0m
+      ['Track', 'Album Name', 'Artist', 'Release Date', 'ISRC']
+      ['All Time Rank', 'Track Score', 'Spotify Streams', 'Spotify Playlist Count', 'Spotify Playlist Reach']
+      ['Spotify Popularity', 'YouTube Views', 'YouTube Likes', 'TikTok Posts', 'TikTok Likes']
+      ['TikTok Views', 'YouTube Playlist Reach', 'Apple Music Playlist Count', 'AirPlay Spins', 'SiriusXM Spins']
+      ['Deezer Playlist Count', 'Deezer Playlist Reach', 'Amazon Playlist Count', 'Pandora Streams', 'Pandora Track Stations']
+      ['Soundcloud Streams', 'Shazam Counts', 'TIDAL Popularity', 'Explicit Track']
+[36m   
+    First 5 rows:[0m
+                        Track                    Album Name          Artist Release Date          ISRC All Time Rank  Track Score Spotify Streams Spotify Playlist Count Spotify Playlist Reach  \
+0         MILLION DOLLAR BABY  Million Dollar Baby - Single   Tommy Richman    4/26/2024  QM24S2402528             1        725.4     390,470,936                 30,716            196,631,588   
+1                 Not Like Us                   Not Like Us  Kendrick Lamar     5/4/2024  USUG12400910             2        545.9     323,703,884                 28,113            174,597,137   
+2  i like the way you kiss me    I like the way you kiss me         Artemas    3/19/2024  QZJ842400387             3        538.4     601,309,283                 54,331            211,607,669   
+3                     Flowers              Flowers - Single     Miley Cyrus    1/12/2023  USSM12209777             4        444.9   2,031,280,633                269,802            136,569,078   
+4                     Houdini                       Houdini          Eminem    5/31/2024  USUG12403398             5        423.3     107,034,922                  7,223            151,469,874   
+
+   Spotify Popularity  YouTube Views YouTube Likes TikTok Posts   TikTok Likes    TikTok Views YouTube Playlist Reach  Apple Music Playlist Count AirPlay Spins SiriusXM Spins  Deezer Playlist Count  \
+0                92.0     84,274,754     1,713,126    5,767,700    651,565,900   5,332,281,936            150,597,040                       210.0        40,975            684                   62.0   
+1                92.0    116,347,040     3,486,739      674,700     35,223,547     208,339,025            156,380,351                       188.0        40,778              3                   67.0   
+2                92.0    122,599,116     2,228,730    3,025,400    275,154,237   3,369,120,610            373,784,955                       190.0        74,333            536                  136.0   
+3                85.0  1,096,100,899    10,629,796    7,189,811  1,078,757,968  14,603,725,994          3,351,188,582                       394.0     1,474,799          2,182                  264.0   
+4                88.0     77,373,957     3,670,188       16,400            NaN             NaN            112,763,851                       182.0        12,185              1                   82.0   
+
+  Deezer Playlist Reach  Amazon Playlist Count Pandora Streams Pandora Track Stations Soundcloud Streams Shazam Counts  TIDAL Popularity  Explicit Track  
+0            17,598,718                  114.0      18,004,655                 22,931          4,818,457     2,669,262               NaN               0  
+1            10,422,430                  111.0       7,780,028                 28,444          6,623,075     1,118,279               NaN               1  
+2            36,321,847                  172.0       5,022,621                  5,639          7,208,651     5,285,340               NaN               0  
+3            24,684,248                  210.0     190,260,277                203,384                NaN    11,822,942               NaN               0  
+4            17,660,624                  105.0       4,493,884                  7,006            207,179       457,017               NaN               1  
+[36m   
+    Last 5 rows:[0m
+                                Track                        Album Name        Artist Release Date          ISRC All Time Rank  Track Score Spotify Streams Spotify Playlist Count  \
+4595                For the Last Time                 For the Last Time   $uicideboy$     9/5/2017  QM8DG1703420         4,585         19.4     305,049,963                 65,770   
+4596                 Dil Meri Na Sune  Dil Meri Na Sune (From "Genius")    Atif Aslam    7/27/2018  INT101800122         4,575         19.4      52,282,360                  4,602   
+4597            Grace (feat. 42 Dugg)                           My Turn      Lil Baby    2/28/2020  USUG12000043         4,571         19.4     189,972,685                 72,066   
+4598              Nashe Si Chadh Gayi             November Top 10 Songs  Arijit Singh    11/8/2016  INY091600067         4,591         19.4     145,467,020                 14,037   
+4599  Me Acostumbre (feat. Bad Bunny)   Me Acostumbre (feat. Bad Bunny)     Arcï¿½ï¿½    4/11/2017  USB271700107         4,593         19.4     255,740,653                 32,138   
+
+     Spotify Playlist Reach  Spotify Popularity  YouTube Views YouTube Likes TikTok Posts TikTok Likes TikTok Views YouTube Playlist Reach  Apple Music Playlist Count AirPlay Spins SiriusXM Spins  \
+4595              5,103,054                71.0    149,247,747     1,397,590       48,370   20,202,000  143,934,379                 53,016                         3.0             6            NaN   
+4596              1,449,767                56.0    943,920,245     5,347,766          NaN        1,721       19,935             24,973,048                         1.0           412            NaN   
+4597              6,704,802                65.0    201,027,333     1,081,402        7,596    5,288,677   36,849,005             29,253,152                        19.0           204            NaN   
+4598              7,387,064                66.0  1,118,595,159     3,868,828       11,433    2,534,831   37,757,301             25,150,516                         1.0         1,200            NaN   
+4599             14,066,526                64.0    866,300,755     3,826,829       78,000   10,055,461   70,196,388            175,831,376                        11.0         2,083            NaN   
+
+      Deezer Playlist Count Deezer Playlist Reach  Amazon Playlist Count Pandora Streams Pandora Track Stations Soundcloud Streams Shazam Counts  TIDAL Popularity  Explicit Track  
+4595                    2.0                14,217                    NaN      20,104,066                 13,184         50,633,006       656,337               NaN               1  
+4596                    1.0                   927                    NaN             NaN                    NaN                NaN       193,590               NaN               0  
+4597                    1.0                    74                    6.0      84,426,740                 28,999                NaN     1,135,998               NaN               1  
+4598                    NaN                   NaN                    7.0       6,817,840                    NaN                NaN       448,292               NaN               0  
+4599                    4.0               127,479                    4.0      69,006,739                 11,320                NaN       767,006               NaN               1  
+[36m   
+    Descriptive statistics:[0m
+                       Track        Album Name Artist Release Date          ISRC All Time Rank  Track Score Spotify Streams Spotify Playlist Count Spotify Playlist Reach  Spotify Popularity  \
+count                   4600              4600   4595         4600          4600          4600      4600.00            4487                   4530                   4528             3796.00   
+unique                  4370              4005   1999         1562          4598          4577          NaN            4425                   4207                   4478                 NaN   
+top     Danza Kuduro - Cover  Un Verano Sin Ti  Drake     1/1/2012  USWL11700269         3,441          NaN   1,655,575,417                      1                      3                 NaN   
+freq                      13                20     63           38             2             2          NaN               4                     46                      8                 NaN   
+mean                     NaN               NaN    NaN          NaN           NaN           NaN        41.84             NaN                    NaN                    NaN               63.50   
+std                      NaN               NaN    NaN          NaN           NaN           NaN        38.54             NaN                    NaN                    NaN               16.19   
+min                      NaN               NaN    NaN          NaN           NaN           NaN        19.40             NaN                    NaN                    NaN                1.00   
+25%                      NaN               NaN    NaN          NaN           NaN           NaN        23.30             NaN                    NaN                    NaN               61.00   
+50%                      NaN               NaN    NaN          NaN           NaN           NaN        29.90             NaN                    NaN                    NaN               67.00   
+75%                      NaN               NaN    NaN          NaN           NaN           NaN        44.42             NaN                    NaN                    NaN               73.00   
+max                      NaN               NaN    NaN          NaN           NaN           NaN       725.40             NaN                    NaN                    NaN               96.00   
+
+       YouTube Views YouTube Likes TikTok Posts TikTok Likes TikTok Views YouTube Playlist Reach  Apple Music Playlist Count AirPlay Spins SiriusXM Spins  Deezer Playlist Count  \
+count           4292          4285         3427         3620         3619                   3591                     4039.00          4102           2477                3679.00   
+unique          4290          4283         3318         3615         3616                   3458                         NaN          3267            689                    NaN   
+top       30,913,276       159,791    1,100,000       14,000  158,504,854                381,728                         NaN             1              1                    NaN   
+freq               2             2            6            2            2                     13                         NaN            69             54                    NaN   
+mean             NaN           NaN          NaN          NaN          NaN                    NaN                       54.60           NaN            NaN                  32.31   
+std              NaN           NaN          NaN          NaN          NaN                    NaN                       71.61           NaN            NaN                  54.27   
+min              NaN           NaN          NaN          NaN          NaN                    NaN                        1.00           NaN            NaN                   1.00   
+25%              NaN           NaN          NaN          NaN          NaN                    NaN                       10.00           NaN            NaN                   5.00   
+50%              NaN           NaN          NaN          NaN          NaN                    NaN                       28.00           NaN            NaN                  15.00   
+75%              NaN           NaN          NaN          NaN          NaN                    NaN                       70.00           NaN            NaN                  37.00   
+max              NaN           NaN          NaN          NaN          NaN                    NaN                      859.00           NaN            NaN                 632.00   
+
+       Deezer Playlist Reach  Amazon Playlist Count Pandora Streams Pandora Track Stations Soundcloud Streams Shazam Counts  TIDAL Popularity  Explicit Track  
+count                   3672                3545.00            3494                   3332               1267          4023               0.0         4600.00  
+unique                  3558                    NaN            3491                   2975               1265          4002               NaN             NaN  
+top                    1,097                    NaN      56,972,562                      9                 27             1               NaN             NaN  
+freq                      17                    NaN               2                      6                  2             5               NaN             NaN  
+mean                     NaN                  25.35             NaN                    NaN                NaN           NaN               NaN            0.36  
+std                      NaN                  25.99             NaN                    NaN                NaN           NaN               NaN            0.48  
+min                      NaN                   1.00             NaN                    NaN                NaN           NaN               NaN            0.00  
+25%                      NaN                   8.00             NaN                    NaN                NaN           NaN               NaN            0.00  
+50%                      NaN                  17.00             NaN                    NaN                NaN           NaN               NaN            0.00  
+75%                      NaN                  34.00             NaN                    NaN                NaN           NaN               NaN            1.00  
+max                      NaN                 210.00             NaN                    NaN                NaN           NaN               NaN            1.00  
+[36m   
+Original column names:[0m
+Index(['Track', 'Album Name', 'Artist', 'Release Date', 'ISRC', 'All Time Rank', 'Track Score', 'Spotify Streams', 'Spotify Playlist Count', 'Spotify Playlist Reach', 'Spotify Popularity',
+       'YouTube Views', 'YouTube Likes', 'TikTok Posts', 'TikTok Likes', 'TikTok Views', 'YouTube Playlist Reach', 'Apple Music Playlist Count', 'AirPlay Spins', 'SiriusXM Spins',
+       'Deezer Playlist Count', 'Deezer Playlist Reach', 'Amazon Playlist Count', 'Pandora Streams', 'Pandora Track Stations', 'Soundcloud Streams', 'Shazam Counts', 'TIDAL Popularity',
+       'Explicit Track'],
+      dtype='object')
+[36m   
+Renamed column names:[0m
+Index(['track', 'album_name', 'artist', 'release_date', 'isrc', 'all_time_rank', 'track_score', 'spotify_streams', 'spotify_playlist_count', 'spotify_playlist_reach', 'spotify_popularity',
+       'youtube_views', 'youtube_likes', 'tiktok_posts', 'tiktok_likes', 'tiktok_views', 'youtube_playlist_reach', 'apple_music_playlist_count', 'airplay_spins', 'siriusxm_spins',
+       'deezer_playlist_count', 'deezer_playlist_reach', 'amazon_playlist_count', 'pandora_streams', 'pandora_track_stations', 'soundcloud_streams', 'shazam_counts', 'tidal_popularity',
+       'explicit_track'],
+      dtype='object')
+[36m   
+    Columns [release_date] can be converted to date_format='%Y-%m-%d'
+    We will use custom function 'fix_dates'
+    [0m
+                        track                    album_name          artist release_date          isrc all_time_rank  track_score spotify_streams spotify_playlist_count spotify_playlist_reach  \
+0         MILLION DOLLAR BABY  Million Dollar Baby - Single   Tommy Richman   2024-04-26  QM24S2402528             1        725.4     390,470,936                 30,716            196,631,588   
+1                 Not Like Us                   Not Like Us  Kendrick Lamar   2024-05-04  USUG12400910             2        545.9     323,703,884                 28,113            174,597,137   
+2  i like the way you kiss me    I like the way you kiss me         Artemas   2024-03-19  QZJ842400387             3        538.4     601,309,283                 54,331            211,607,669   
+3                     Flowers              Flowers - Single     Miley Cyrus   2023-01-12  USSM12209777             4        444.9   2,031,280,633                269,802            136,569,078   
+4                     Houdini                       Houdini          Eminem   2024-05-31  USUG12403398             5        423.3     107,034,922                  7,223            151,469,874   
+
+   spotify_popularity  youtube_views youtube_likes tiktok_posts   tiktok_likes    tiktok_views youtube_playlist_reach  apple_music_playlist_count airplay_spins siriusxm_spins  deezer_playlist_count  \
+0                92.0     84,274,754     1,713,126    5,767,700    651,565,900   5,332,281,936            150,597,040                       210.0        40,975            684                   62.0   
+1                92.0    116,347,040     3,486,739      674,700     35,223,547     208,339,025            156,380,351                       188.0        40,778              3                   67.0   
+2                92.0    122,599,116     2,228,730    3,025,400    275,154,237   3,369,120,610            373,784,955                       190.0        74,333            536                  136.0   
+3                85.0  1,096,100,899    10,629,796    7,189,811  1,078,757,968  14,603,725,994          3,351,188,582                       394.0     1,474,799          2,182                  264.0   
+4                88.0     77,373,957     3,670,188       16,400            NaN             NaN            112,763,851                       182.0        12,185              1                   82.0   
+
+  deezer_playlist_reach  amazon_playlist_count pandora_streams pandora_track_stations soundcloud_streams shazam_counts  tidal_popularity  explicit_track  invalid_date  
+0            17,598,718                  114.0      18,004,655                 22,931          4,818,457     2,669,262               NaN               0         False  
+1            10,422,430                  111.0       7,780,028                 28,444          6,623,075     1,118,279               NaN               1         False  
+2            36,321,847                  172.0       5,022,621                  5,639          7,208,651     5,285,340               NaN               0         False  
+3            24,684,248                  210.0     190,260,277                203,384                NaN    11,822,942               NaN               0         False  
+4            17,660,624                  105.0       4,493,884                  7,006            207,179       457,017               NaN               1         False  
+                                                
+[37m   ********* END OF QUERYING PROBLEM 2. *********
+
+[0m
+    ********** PROBLEM 3. MOST PRODUCTIVE ARTIST. ***********
+    ********** WHO ARE THE TOP % ARTIST WITH MOST SONGS IN DATASET. ********
+    ********** WHOARE THE % CLEAN_MOUTH ARTISTS *******
+    
+                                                
+********* BEGIN COLUMN MANIPULATION *********
+                                                
+
+[36m   
+Bellow are shown top5 artist for a different criteria
+    [0m
+[36m   
+Top 5 artists with the most songs:
+    [0m
+                                                
+Drake             63
+Taylor Swift      63
+Bad Bunny         60
+KAROL G           32
+The Weeknd        31
+Travis Scott      30
+Billie Eilish     27
+Ariana Grande     26
+Future            23
+Peso Pluma        22
+Post Malone       22
+Juice WRLD        21
+Morgan Wallen     20
+Olivia Rodrigo    20
+Lil Baby          20
+Name: artist, dtype: int64
+[36m   
+To print out these with most clean ( singing only for the sun, flowers, stars and mountains),
+we are going to define/set clean filter which will be applied over artists
+    [0m
+[36m   
+Top 5 clean-mouth artist artists"
+    [0m
+Taylor Swift     50
+Billie Eilish    25
+Bad Bunny        18
+KAROL G          18
+Morgan Wallen    17
+Name: artist, dtype: int64
+                                                
+
+                                                
+********* END OF QUERYING PROBLEM 3. *********
+                                                
+                                                
+
+    ********** PROBLEM 4. MOST STREAMED ARTIST. ***********
+    ********** WHO ARE THE TOP 5 MOST STREAMED ARTISTS. ********
+    ********** ACCORDING TO SPOTIFY STREAMS *******
+    
+                                                
+********* BEGIN COLUMN MANIPULATION *********
+                                                
+
+[3.90470936e+08 3.23703884e+08 6.01309283e+08 ... 1.89972685e+08
+ 1.45467020e+08 2.55740653e+08]
+[36m   
+Bellow are shown top10 most streamed artist according to spotify
+     [0m
+         artist  total_streams
+0     Bad Bunny 37,054,834,425
+1    The Weeknd 36,948,540,278
+2         Drake 34,962,157,577
+3  Taylor Swift 34,470,771,165
+4   Post Malone 26,137,472,958
+                                                
+********* END OF QUERYING PROBLEM 4. *********
+                                                
+                                                
+
+    ******* PROBLEM 5. HOW MANY SONGS PER YEAR. **********
+    ********** PRESENT AN APPROPRIATE PLOT. ********
+    ********** EXPLAIN BEHAVIOUR OF 2024 ***********
+    
+                                                
+********* BEGIN COLUMN MANIPULATION *********
+                                                
+
+[36m   
+Bellow query will show how many songs are released per year
+     [0m
+[36m   
+We have already converted 'Released date' to datetime format but lets check
+     [0m
+0       4/26/2024
+1        5/4/2024
+2       3/19/2024
+3       1/12/2023
+4       5/31/2024
+          ...    
+4595     9/5/2017
+4596    7/27/2018
+4597    2/28/2020
+4598    11/8/2016
+4599    4/11/2017
+Name: release_date, Length: 4600, dtype: object
+[36m   
+Well not exactly, may be we forgot to overwrite the dataset, so let's do it again
+     [0m
+0      2024-04-26
+1      2024-05-04
+2      2024-03-19
+3      2023-01-12
+4      2024-05-31
+          ...    
+4595   2017-09-05
+4596   2018-07-27
+4597   2020-02-28
+4598   2016-11-08
+4599   2017-04-11
+Name: release_date, Length: 4600, dtype: datetime64[ns]
+[36m   
+So now that we have dates converted we can create a new column like 'release_year'
+for easier work 
+     [0m
+0       2024
+1       2024
+2       2024
+3       2023
+4       2024
+        ... 
+4595    2017
+4596    2018
+4597    2020
+4598    2016
+4599    2017
+Name: release_year, Length: 4600, dtype: int64
+                                                
+
+[36m   
+lets count the songs per year... counting
+Number of song per each year:
+     [0m
+1987       1
+1991       1
+1994       1
+1998       1
+1999       1
+2000       2
+2001       1
+2002       5
+2003       3
+2004       5
+2005       5
+2006       3
+2007       5
+2008      11
+2009      15
+2010      27
+2011      51
+2012      47
+2013      55
+2014      70
+2015      96
+2016     123
+2017     213
+2018     249
+2019     296
+2020     360
+2021     408
+2022     694
+2023    1158
+2024     693
+Name: release_year, dtype: int64
+[36m   
+Plot shows significant differences in released songs for 2024, compared to 2023.
+They are just a song shorter than year 2022.
+Lets see the distribution per month
+     [0m
+[36m   
+One possible reason is that either all artists got killed by CORONA virus or the year is not full. 
+let's see...
+     [0m
+    release_year  months_count  max_month
+0           1987             1          7
+1           1991             1          9
+2           1994             1          1
+3           1998             1          4
+4           1999             1          6
+5           2000             2         10
+6           2001             1          9
+7           2002             5         10
+8           2003             2          3
+9           2004             3         11
+10          2005             3          9
+11          2006             2          5
+12          2007             3         11
+13          2008             3         12
+14          2009             5         12
+15          2010             7         10
+16          2011             9         12
+17          2012             6         12
+18          2013            10         12
+19          2014            11         12
+20          2015            12         12
+21          2016            12         12
+22          2017            12         12
+23          2018            12         12
+24          2019            12         12
+25          2020            12         12
+26          2021            12         12
+27          2022            12         12
+28          2023            12         12
+29          2024             6          6
+[36m   
+part os our initial hyphotesis got confirmed by the grah. We only have 6 months for  year 2024
+     [0m
+[36m   
+We will take similar if not exact same approach as we took for somgs per year.
+I am not sure which representation will be more helpfull, to show month as int (1, 2, 3...)
+or to use names like (jan, feb, march) and so on ...
+     [0m
+                                                
+
+[36m   
+We can use pivot table to count the songs per year... counting
+Number of song per each year:
+     [0m
+    release_year  song_count
+0           1987           1
+1           1991           1
+2           1994           1
+3           1998           1
+4           1999           1
+5           2000           2
+6           2001           1
+7           2002           5
+8           2003           3
+9           2004           5
+10          2005           5
+11          2006           3
+12          2007           5
+13          2008          11
+14          2009          15
+15          2010          27
+16          2011          51
+17          2012          47
+18          2013          55
+19          2014          70
+20          2015          96
+21          2016         123
+22          2017         213
+23          2018         249
+24          2019         296
+25          2020         360
+26          2021         408
+27          2022         694
+28          2023        1158
+29          2024         693
+0        4
+1        5
+2        3
+3        1
+4        5
+        ..
+4595     9
+4596     7
+4597     2
+4598    11
+4599     4
+Name: release_month, Length: 4600, dtype: int64
+                                                
+
+[36m   
+lets count the songs per month... counting
+Number of song per each month:
+     [0m
+1     503
+2     371
+3     430
+4     420
+5     511
+6     395
+7     321
+8     315
+9     328
+10    384
+11    350
+12    272
+Name: release_month, dtype: int64
+                                                
+
+[36m   
+Now that we have songs per year and songs per months let's graph...
+     [0m
+[36m   
+We can you chi-square to find if songs are released equally accross years, or 
+if there is some signifficant difference
+     [0m
+Chi-square stats: 13870.75, p_value: 0.0000
+[36m   
+Chi-square result indicates that the number of songs released per year significantly deviates from a uniform distribution.
+In other words, songs are not released evenly across years. Some years have far more releases than others.
+
+This could be related to trends in music production, not consistent data collection , or the growth of Spotify’s catalog over time.
+Since the p-value is well below typical significance levels- 0.05, we reject the null hypothesis that release counts are uniform.
+     [0m
+[36m   
+We can try to plot all together songs per month per specific year
+with something l ike grouped bar char
+     [0m
+[36m   
+We are going to create separate columns for release_month, release_year
+which we will use for grouping
+     [0m
+                                                
+
+[36m   sorting months in calendar manner[0m
+[36m   we will take values because we dont want names, rather we need ints to sort in right order[0m
+                                                
+
+                                                
+
+release_year   1987  1991  1994  1998  1999  2000  2001  2002  2003  2004  2005  2006  2007  2008  2009  2010  2011  2012  2013  2014  2015  2016  2017  2018  2019  2020  2021  2022  2023  2024
+release_month                                                                                                                                                                                    
+Apr               0     0     0     1     0     0     0     0     0     0     0     0     1     0     0     1     0     0     1     0     4    12    17    18    20    22    37    48    75   163
+Aug               0     0     0     0     0     0     0     1     0     0     0     0     0     0     1     0     1     0     0     4     5     9    25    27    25    25    33    68    91     0
+Dec               0     0     0     0     0     0     0     0     0     0     0     0     0     1     1     0     3     1     3     4     7    12    16    17    27    18    24    68    70     0
+Feb               0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     1     0     0     2     8     6    17    15    20    38    35    37    88   104
+Jan               0     0     1     0     0     1     0     1     2     3     3     2     3     9    11    17    22    38    34    31    14    18    21    21    19    33    26    32    69    72
+Jul               1     0     0     0     0     0     0     0     0     0     0     0     0     0     0     2     3     1     3     4    11     9    11    18    21    44    33    57   103     0
+Jun               0     0     0     0     1     0     0     1     0     0     0     0     0     1     0     1     0     0     3     3    11     5    20    21    32    24    41    60   124    47
+Mar               0     0     0     0     0     0     0     0     1     0     0     0     0     0     0     0     0     0     2     3     6     9    18    16    25    28    29    36   124   133
+May               0     0     0     0     0     0     0     1     0     0     1     1     0     0     0     2     1     0     1     1     6     6    16    29    35    27    37    91    82   174
+Nov               0     0     0     0     0     0     0     0     0     1     0     0     1     0     1     0    15     2     4     6     7    13    21    24    27    34    38    66    90     0
+Oct               0     0     0     0     0     1     0     1     0     1     0     0     0     0     0     1     4     4     1     6    11    12    16    26    27    42    33    69   129     0
+Sep               0     1     0     0     0     0     1     0     0     0     1     0     0     0     1     3     1     1     3     6     6    12    15    17    18    25    42    62   113     0
+                                                
+********* END OF QUERYING PROBLEM 5. *********
+                                                
+                                                
+
+    *********** PROBLEM 6. PLAYLISTS. ***************
+    *** CORRELATIONS BETWEEN ADDING A SONGS TO PLAYLISTS. ***
+    ************** PLOT ALL RELATIONSHIPS *******************
+    
+                                                
+********* BEGIN COLUMN MANIPULATION *********
+                                                
+
+[36m   
+For the purpose pf this task we will create a playlist dict containing
+related columns that we are going to use
+     [0m
+     spotify_playlist_count  apple_music_playlist_count  deezer_playlist_count  amazon_playlist_count
+0                    30,716                         210                     62                    114
+1                    28,113                         188                     67                    111
+2                    54,331                         190                    136                    172
+3                   269,802                         394                    264                    210
+4                     7,223                         182                     82                    105
+...                     ...                         ...                    ...                    ...
+4595                 65,770                           3                      2                    NaN
+4596                  4,602                           1                      1                    NaN
+4597                 72,066                          19                      1                      6
+4598                 14,037                           1                    NaN                      7
+4599                 32,138                          11                      4                      4
+
+[4600 rows x 4 columns]
+[36m   
+few problems exists after looking at the 'playlist_df' values.
+Values like '269,802' are comma separated, they will be interpreted as a
+string. ALsi there are NaNs in the columns. In general the 'table' in this 
+format cannot be used for finding correlations or plotting. 
+     [0m
+[36m   
+So before starting whatever we want to start numbers should be converted to ints,
+NaNs should be dropped or handled in some other way. 
+     [0m
+                                                
+[36m   lets see original values[0m
+[36m   
+---spotify_playlist_count (before handling the data)[0m
+0     30,716
+1     28,113
+2     54,331
+3    269,802
+4      7,223
+5    105,892
+6     73,118
+7     40,094
+8          1
+9     10,400
+Name: spotify_playlist_count, dtype: object
+[36m   
+---apple_music_playlist_count (before handling the data)[0m
+0   210
+1   188
+2   190
+3   394
+4   182
+5   138
+6   280
+7   160
+8   NaN
+9   191
+Name: apple_music_playlist_count, dtype: float64
+[36m   
+---deezer_playlist_count (before handling the data)[0m
+0    62
+1    67
+2   136
+3   264
+4    82
+5    86
+6   168
+7    87
+8   NaN
+9    78
+Name: deezer_playlist_count, dtype: float64
+[36m   
+---amazon_playlist_count (before handling the data)[0m
+0   114
+1   111
+2   172
+3   210
+4   105
+5   152
+6   154
+7    53
+8   NaN
+9    92
+Name: amazon_playlist_count, dtype: float64
+[36m   
+---spotify_playlist_count (after handling the data)[0m
+[30716.0, 28113.0, 54331.0, 269802.0, 7223.0, 105892.0, 73118.0, 40094.0, 1.0, 10400.0]
+0     30716.0
+1     28113.0
+2     54331.0
+3    269802.0
+4      7223.0
+5    105892.0
+6     73118.0
+7     40094.0
+8         1.0
+9     10400.0
+Name: spotify_playlist_count, dtype: float64
+[36m   
+---apple_music_playlist_count (after handling the data)[0m
+[30716.0, 28113.0, 54331.0, 269802.0, 7223.0, 105892.0, 73118.0, 40094.0, 1.0, 10400.0]
+0    210.0
+1    188.0
+2    190.0
+3    394.0
+4    182.0
+5    138.0
+6    280.0
+7    160.0
+8      NaN
+9    191.0
+Name: apple_music_playlist_count, dtype: float64
+[36m   
+---deezer_playlist_count (after handling the data)[0m
+[30716.0, 28113.0, 54331.0, 269802.0, 7223.0, 105892.0, 73118.0, 40094.0, 1.0, 10400.0]
+0     62.0
+1     67.0
+2    136.0
+3    264.0
+4     82.0
+5     86.0
+6    168.0
+7     87.0
+8      NaN
+9     78.0
+Name: deezer_playlist_count, dtype: float64
+[36m   
+---amazon_playlist_count (after handling the data)[0m
+[30716.0, 28113.0, 54331.0, 269802.0, 7223.0, 105892.0, 73118.0, 40094.0, 1.0, 10400.0]
+0    114.0
+1    111.0
+2    172.0
+3    210.0
+4    105.0
+5    152.0
+6    154.0
+7     53.0
+8      NaN
+9     92.0
+Name: amazon_playlist_count, dtype: float64
+[36m   
+The question now is: how to handle NaNs / NAs... In order to be able to 
+visualize or make correlations, we need clean data. Plots and correlations
+dont like NaNs / NAs...   
+     [0m
+[36m   
+One alternative way i to replace NaNs with ZERO. Thih is assumption that the 
+song has zero (0) playlists. 
+We can also try Pearson correlation which will handle the NaN
+     [0m
+[36m   
+Lets try Pearson with NaNs
+     [0m
+[36m   
+So, how can we interpretate the result in this correlation map..
+apple_music <-> deezer - Corelation 0.78 -> strong positive relationship: When a particular song is in many Apple playlists, it is often also in many Deezer playlists.
+spotify <-> apple_music - Correlation 0.69 -> moderately strong: May be popular songs on Spotify playlists are also  on Apple Music.
+deezer<-> amazon - Correlation 0.57 -> moderate relationship: there is some overlap, but it is rather weak
+spotify <-> amazon - Correlation 0.38 -> weak correlation
+
+     [0m
+[36m   
+This can mean that correlation in not equal to causation.. we cannot say loudly that one platform affects another directly.
+Bit a point to make, this is only linear correlation, there might be a differences in correlation with some other methods.
+also we are dealing with NaNs. 
+NaN handling matters — we might get slightly different correlations if we replace NaNs with 0s.
+     [0m
+[36m   
+Lets test NaNs repalced with Zeroes
+     [0m
+[36m   
+Lets try to compare both methods and find the differences
+     [0m
+[35m   
+ Correlation Comparison between bot methods (NaNs vs Zeroes):
+[0m
+                                                 spotify_playlist_count                   apple_music_playlist_count                        deezer_playlist_count  \
+spotify_playlist_count                     1.0:.2f -> 1.00 (diff +0.00)  0.6858856622525443:.2f -> 0.70 (diff +0.02)  0.5602076104698289:.2f -> 0.59 (diff +0.03)   
+apple_music_playlist_count  0.6858856622525443:.2f -> 0.70 (diff +0.02)                 1.0:.2f -> 1.00 (diff +0.00)  0.7757100761704931:.2f -> 0.79 (diff +0.01)   
+deezer_playlist_count       0.5602076104698289:.2f -> 0.59 (diff +0.03)  0.7757100761704931:.2f -> 0.79 (diff +0.01)                 1.0:.2f -> 1.00 (diff +0.00)   
+amazon_playlist_count        0.382226324514937:.2f -> 0.46 (diff +0.07)  0.6656349027120154:.2f -> 0.70 (diff +0.04)  0.5689040535425401:.2f -> 0.62 (diff +0.05)   
+
+                                                  amazon_playlist_count  
+spotify_playlist_count       0.382226324514937:.2f -> 0.46 (diff +0.07)  
+apple_music_playlist_count  0.6656349027120154:.2f -> 0.70 (diff +0.04)  
+deezer_playlist_count       0.5689040535425401:.2f -> 0.62 (diff +0.05)  
+amazon_playlist_count                      1.0:.2f -> 1.00 (diff +0.00)  
+[35m   
+We can try to find % of missing values per column
+     [0m
+                                                
+[35m   
+Percentage of missing values per column:
+     [0m
+                                                
+spotify_playlist_count         1.52
+apple_music_playlist_count    12.20
+deezer_playlist_count         20.02
+amazon_playlist_count         22.93
+dtype: float64
+[35m   
+What we see is that Spotify has almost no missing data.
+Apple has small amount of missing data, but still can make a difference in some stats.
+Amazon and Deezer are between 20 and 25 % which is more significant 
+     [0m
+[33m   
+So, replacing NaNs with 0 here is introducing some artificial inflation of correlation, 
+especially with Spotify or Apple data that has low missingness.
+
+So if we want stats accuracy it is better to stick with NaNs
+     [0m
+                                                
+********* END OF QUERYING PROBLEM 6. *********
+                                                
+                                                
+
+    ****** PROBLEM 7. YOUTUBE VIEWS AND LIKES. ***********
+    ******** RELATIONSHIP BETWEEN YOUTUBE VIRES AND LIKES. *******
+    ****** WHAT IS THE MEAN YOUTUBE VIEWS-TO-LIKE RATIO **********
+    
+                                                
+********* BEGIN COLUMN MANIPULATION *********
+                                                
+
+      youtube_views youtube_likes youtube_playlist_reach
+0        84,274,754     1,713,126            150,597,040
+1       116,347,040     3,486,739            156,380,351
+2       122,599,116     2,228,730            373,784,955
+3     1,096,100,899    10,629,796          3,351,188,582
+4        77,373,957     3,670,188            112,763,851
+...             ...           ...                    ...
+4595    149,247,747     1,397,590                 53,016
+4596    943,920,245     5,347,766             24,973,048
+4597    201,027,333     1,081,402             29,253,152
+4598  1,118,595,159     3,868,828             25,150,516
+4599    866,300,755     3,826,829            175,831,376
+
+[4600 rows x 3 columns]
+[36m   
+Again we will need to clean commas and mace columns numerical. 
+Well.. will make a func to convert commas columns to numeric columns since this is second time 
+that i need to do the same thing just for different columns. -> func: clean_numeric_columns
+     [0m
+      youtube_views  youtube_likes  youtube_playlist_reach
+0          8.43e+07       1.71e+06                1.51e+08
+1          1.16e+08       3.49e+06                1.56e+08
+2          1.23e+08       2.23e+06                3.74e+08
+3          1.10e+09       1.06e+07                3.35e+09
+4          7.74e+07       3.67e+06                1.13e+08
+...             ...            ...                     ...
+4595       1.49e+08       1.40e+06                5.30e+04
+4596       9.44e+08       5.35e+06                2.50e+07
+4597       2.01e+08       1.08e+06                2.93e+07
+4598       1.12e+09       3.87e+06                2.52e+07
+4599       8.66e+08       3.83e+06                1.76e+08
+
+[4600 rows x 3 columns]
+[36m   
+Now that we have numeric values in our columns, lets plot
+We can use scatter plot to show spread of data points for views and likes.
+This will help with better visualisation
+     [0m
+[36m   
+So this is N-tieth time to write the same plt.whatever plot we want.. 
+This means its better to have a plotting function...
+     [0m
+[36m   
+What we can say while staring at the graph. We have regression line that estimates the overall trend.
+We can say that as views increase, likes generally increase too — we say that we have positive correlation.
+The line in curved which means that probably likes increase non linearly with views.
+     [0m
+[36m   
+We can also notice that there are tracks with huge views but relatively low likes, 
+which pull the regression line slightly down.
+There are also a few very low-liked tracks with high views might be anomalies, or just a really BAD songs
+     [0m
+[36m   Youtube mean ratio: 169.12[0m
+[36m   Youtube median ratio: 111.00[0m
+[36m   
+това което виждаме на графиката, е един пик в ляво, при това доста голям, което може да каже, че по-голямата част от стойностите са
+доста ниски ( много видеа имат доста ниска отношение 'view-to-likes'.
+Това може и да е проблем на начина по-който плотваме данните.
+     [0m
