@@ -6,8 +6,25 @@
   <component name="ChangeListManager">
     <list default="true" id="460188f4-f350-42aa-be27-3c06445e56c2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/04.Data-Tidying-and-Cleaning.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/Data-Tidying-and-Cleaning-Lab/data/.ipynb_checkpoints/merged_data_cleaned-checkpoint.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/Data-Tidying-and-Cleaning-Materials/billboard.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/Data-Tidying-and-Cleaning-Materials/pew.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/Data-Tidying-and-Cleaning-Materials/tb.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/Data-Tidying-and-Cleaning-Materials/weather.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/HW_new_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/ai_job_dataset.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/coffee_cleaned_final.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/func.Convert_to_kg.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/func_data_fix.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/func_snake_case.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/04.DataTidyingAndCleaning/lab/ai_job_dataset.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/05.DataVisualisation/05.DataVisualisation_Homework.py" beforeDir="false" afterPath="$PROJECT_DIR$/05.DataVisualisation/05.DataVisualisation_Homework.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Utils/Functions/func_plot_graphs.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Functions/func_plot_graphs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/05.DataVisualisation/lab/electric_vehicles_specs.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Utils/Functions/func_parse_quarters1.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +35,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="05.DataVisualisation_Homework.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/05.DataVisualisation/05.DataVisualisation_Homework.py">
+      <file leaf-file-name="04.DataTidyingAndCleaning_HomeWork.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="289" lean-forward="true" selection-start-line="289" selection-end-line="289" />
+            <state relative-caret-position="326">
+              <caret line="90" column="32" lean-forward="true" selection-start-line="58" selection-end-line="90" selection-end-column="32" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -30,11 +47,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/Python/Lib/site-packages/pandas/core/indexes/base.py">
+      <file leaf-file-name="05.DataVisualisation_Homework.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/05.DataVisualisation/05.DataVisualisation_Homework.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="3362" selection-start-line="3362" selection-end-line="3362" />
+            <state relative-caret-position="231">
+              <caret line="677" column="8" lean-forward="true" selection-start-line="677" selection-start-column="8" selection-end-line="677" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -42,10 +62,34 @@
       <file leaf-file-name="func_plot_graphs.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Utils/Functions/func_plot_graphs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="130" selection-start-line="130" selection-end-line="130" />
+            <state relative-caret-position="240">
+              <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="func_helper_query_dataset.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-114">
+              <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#64#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="func_helper_duplicate_rows.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+              <folding>
+                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -117,21 +161,21 @@
         <option value="$PROJECT_DIR$/Utils/Functions/func_get_encoding.py" />
         <option value="$PROJECT_DIR$/Utils/Configs/datasets_config.csv" />
         <option value="$PROJECT_DIR$/Utils/Functions/func_read_csv_zipped.py" />
-        <option value="$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py" />
-        <option value="$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py" />
-        <option value="$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py" />
         <option value="$PROJECT_DIR$/Utils/Functions/func_helper_print_colors.py" />
         <option value="$PROJECT_DIR$/Utils/Functions/func_helper_clean_numeric_columns.py" />
         <option value="$PROJECT_DIR$/08.RegressionModels/08.RegressionModels_lab.py" />
         <option value="$PROJECT_DIR$/Utils/Functions/func_plot_praphs.py" />
         <option value="$PROJECT_DIR$/Utils/Functions/func_plot_graphs.py" />
+        <option value="$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py" />
+        <option value="$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py" />
+        <option value="$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py" />
         <option value="$PROJECT_DIR$/05.DataVisualisation/05.DataVisualisation_Homework.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-5" />
-    <option name="y" value="4" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-17" />
+    <option name="y" value="7" />
     <option name="width" value="1936" />
     <option name="height" value="1096" />
   </component>
@@ -147,6 +191,22 @@
             <path>
               <item name="DataScience" type="b2602c69:ProjectViewProjectNode" />
               <item name="DataScience" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DataScience" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataScience" type="462c0819:PsiDirectoryNode" />
+              <item name="04.DataTidyingAndCleaning" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DataScience" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataScience" type="462c0819:PsiDirectoryNode" />
+              <item name="Utils" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DataScience" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataScience" type="462c0819:PsiDirectoryNode" />
+              <item name="Utils" type="462c0819:PsiDirectoryNode" />
+              <item name="Functions" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -275,8 +335,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.05.DataVisualisation_Homework" />
-        <item itemvalue="Python.08.RegressionModels_lab" />
         <item itemvalue="Python.04.DataTidyingAndCleaning_HomeWork" />
+        <item itemvalue="Python.08.RegressionModels_lab" />
         <item itemvalue="Python.func_read_csv_zipped" />
         <item itemvalue="Python.func_helper_query_dataset" />
       </list>
@@ -296,13 +356,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-17" y="7" width="1936" height="1096" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1640625" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21354167" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34964323" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.42507645" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -465,13 +525,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Utils/Dicts/dict_Cofee_Harvest_periods.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="51" lean-forward="true" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Utils/Dicts/dict_Country_on_Continent.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -567,30 +620,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="690">
-          <caret line="50" column="50" selection-start-line="50" selection-start-column="50" selection-end-line="50" selection-end-column="50" />
-          <folding>
-            <element signature="e#0#64#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_print_colors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
           <caret line="9" column="5" lean-forward="true" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1119">
-          <caret line="720" selection-start-line="720" selection-end-line="720" selection-end-column="59" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -615,16 +648,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="47" selection-start-column="47" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="38" selection-start-line="18" selection-start-column="38" selection-end-line="18" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -671,27 +694,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/Python/Lib/site-packages/pandas/core/indexes/base.py">
+    <entry file="file://$PROJECT_DIR$/Utils/Dicts/dict_Cofee_Harvest_periods.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="3362" selection-start-line="3362" selection-end-line="3362" />
+        <state relative-caret-position="255">
+          <caret line="17" column="51" lean-forward="true" selection-start-line="17" selection-start-column="51" selection-end-line="17" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Python/Lib/site-packages/pandas/core/indexes/base.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/04.DataTidyingAndCleaning/04.DataTidyingAndCleaning_HomeWork.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="90" column="32" lean-forward="true" selection-start-line="58" selection-end-line="90" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Utils/Functions/func_plot_graphs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="130" selection-start-line="130" selection-end-line="130" />
+        <state relative-caret-position="240">
+          <caret line="16" column="21" lean-forward="true" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_query_dataset.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-114">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#64#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Utils/Functions/func_helper_duplicate_rows.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="13" lean-forward="true" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/05.DataVisualisation/05.DataVisualisation_Homework.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="289" lean-forward="true" selection-start-line="289" selection-end-line="289" />
+        <state relative-caret-position="231">
+          <caret line="677" column="8" lean-forward="true" selection-start-line="677" selection-start-column="8" selection-end-line="677" selection-end-column="8" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

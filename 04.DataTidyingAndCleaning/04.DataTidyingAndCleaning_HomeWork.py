@@ -5,38 +5,56 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 
+
 from Utils.Functions.func_fix_column_names import snake_case
 from Utils.Functions.func_convert_units_kg import units_to_kg
 from Utils.Functions.func_spanish_to_english import translator
 from Utils.Functions.func_parse_trimesters import parse_trimester
+from Utils.Dicts.dict_graph_rating_colums import rating_columns
+from Utils.Lists.stats_Raiting_Columns import statistical_columns
+from Utils.Functions.func_helper_query_dataset import query_dataframe
 from Utils.Functions.func_helper_normalize_text import normalize_text
+from Utils.Dicts.dict_Country_on_Continent import country_to_continent
 from Utils.Functions.func_helper_normalize_dates import normalize_dates
 from Utils.Functions.func_helper_normalize_month import normalize_month
+
 from Utils.Functions.func_fix_date_multiColumns import convert_date_multiColumns
-from Utils.Dicts.dict_graph_rating_colums import rating_columns
-from Utils.Dicts.dict_Country_on_Continent import country_to_continent
-from Utils.Lists.stats_Raiting_Columns import statistical_columns
 
 
-# from Utils.Functions.func_fix_harvest_date import get_start_end_dates
-# from Utils.Functions.func_chunk_size import chunk_size
-# from Utils.Functions.func_countryHarvestYear import transform_dates_from_country_and_year
-# from Utils.Dicts.dict_Cofee_Harvest_periods import coffee_harvest_seasons
-# from Utils.Functions.func_HarvestDate_normalized import normalize_harvest_year
+
 
 
 
 indent = " " * 0
+base_path = "F:/GitHub/DataScience"
+
+# Loading dataset config CSV
+config_path = os.path.join(base_path, "Utils", "Configs", "datasets_config.csv")
+datasets_df = pd.read_csv(config_path)
+
+# Convert CSV config into dictionary with full paths
+dataset_paths = {
+    row['name']: os.path.join(base_path, row['path'].lstrip("/").lstrip("\\"))
+    for _, row in datasets_df.iterrows()
+}
+
+cofee_path = dataset_paths.get('coffee_data')
+coffee_data = pd.read_csv(cofee_path, encoding='ISO-8859-1')
+
 
 
 pd.set_option('display.max_columns', None)
 pd.set_option('display.width', 200)
 pd.set_option('display.precision', 2)
-coffee_data = pd.read_csv("lab/merged_data_cleaned.csv")
+#coffee_data = pd.read_csv("lab/merged_data_cleaned.csv")
+
+#query_dataframe(coffee_data, filepath=cofee_path, encoding='ISO-8859-1')
 
 ###################################################################
 ###################### 1 Reading Data #############################
 ###################################################################
+
+
 
 print(f"{'':48}")
 print(indent + "********* PROBLEM 1. READ THE DATASET **********")

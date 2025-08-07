@@ -10,6 +10,7 @@ def query_dataframe(dataframe, filepath=None, encoding=None, indent="    "):
     if filepath:
         if encoding:
             color_print(f"{indent}Encoding check:", level="info")
+            print(f"{'':48}")
             color_print(f"{indent} Filepath: {filepath}", level="info")
             color_print(f"{indent} Encoding: {encoding}", level="info")
         else:
@@ -31,44 +32,50 @@ def query_dataframe(dataframe, filepath=None, encoding=None, indent="    "):
     else:
         color_print(f"{indent}No filepath provided.", level="yellow")
 
-    color_print(f"\n{indent}Dataset Summary\n{indent}{'-' * 50}", level="info")
-
     # Basic info
-    color_print(f"{indent} DataFrame dimensions: {dataframe.shape}", level="info")
+    print(f"{'':48}\n" * 2)
+    color_print("Dataset Summary:", level="info")
+    color_print(f"DataFrame dimensions: {dataframe.shape}", level="info")
     print(f"{'':48}")
 
     # Null values
+    print(f"{'':48}\n" * 2)
     nulls = dataframe.isnull().sum()
     if nulls.sum() > 0:
-        color_print(f"{indent} Missing values per column:", level="warning")
+        color_print("Missing values per column:", level="warning")
         print(f"{'':48}")
         print(nulls[nulls > 0])
     else:
-        color_print(f"{indent} No missing values detected.", level="info")
+        color_print("No missing values detected.", level="info")
     print(f"{'':48}")
 
     # Duplicates
-    print_duplicate_rows(dataframe, indent=indent)
+    print(f"{'':48}\n" * 2)
+    print_duplicate_rows(dataframe)
     print(f"{'':48}")
 
     # Columns and dtypes
+    print(f"{'':48}\n" * 2)
     color_print(f"\n{indent}Columns and data types:", level="info")
     for col, dtype in dataframe.dtypes.items():
         print(f"{indent}  - {col}: {dtype}")
 
     # Column listing
-    color_print(f"\n{indent}Column names (grouped):", level="info")
+    print(f"{'':48}\n" * 2)
+    color_print("Column names (grouped) for easy reading:", level="info")
     cols = list(dataframe.columns)
     for i in range(0, len(cols), 5):
         print(indent + "  " + str(cols[i:i + 5]))
 
     # Preview rows
-    color_print(f"\n{indent}First 5 rows:", level="info")
+    print(f"{'':48}\n" * 2)
+    color_print("First 5 rows:", level="info")
     print(dataframe.head())
-
-    color_print(f"\n{indent}Last 5 rows:", level="info")
+    print(f"{'':48}\n")
+    color_print("Last 5 rows:", level="info")
     print(dataframe.tail())
 
-    # Summary stats
-    color_print(f"\n{indent}Descriptive statistics:", level="info")
-    print(dataframe.describe(include='all', datetime_is_numeric=True))
+    # # Summary stats
+    # print(f"{'':48}\n" * 2)
+    # color_print(f"Descriptive statistics:", level="info")
+    # print(dataframe.describe(include='all'))

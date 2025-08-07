@@ -9,10 +9,10 @@ def print_duplicate_rows(dataframe, indent="    ", subset=None):
         duplicates = dataframe[dataframe.duplicated(keep=False)]
 
     count = len(duplicates)
-    color_print(f"{indent}- Duplicate rows: {count}", level="warning")
+    color_print(f"Duplicate rows: {count}", level="warning")
 
     if count > 0:
-        color_print(f"{indent}  Duplicate entries preview (subset columns):", level="warning")
+        color_print(f"Duplicate entries preview:", level="warning")
         if subset:
             print(duplicates[subset].head(10))
         else:

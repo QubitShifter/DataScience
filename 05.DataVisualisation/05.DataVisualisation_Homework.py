@@ -189,7 +189,7 @@ pd.set_option('display.float_format', '{:,.0f}'.format)
 
 top5_most_streamed_artists = (
     spotify_dataset.groupby('artist')['spotify_streams']
-    .sum()  # or use .mean(), .max(), etc. depending on your goal
+    .sum()
     .sort_values(ascending=False)
     .head(5)
     .reset_index(name='total_streams')
@@ -310,7 +310,7 @@ print(years_summary)
 
 plot_graphs(
     df=years_summary,
-    plot_type='scatter',
+    plot_type='bar',
     x_col='release_year',
     y_col='months_count',
     title='Number of Months with Data per Year',
@@ -453,14 +453,15 @@ grouped = grouped.sort_values(['release_month_num', 'release_year'])
 pivot_df = grouped.pivot(index='release_month', columns='release_year', values='count').fillna(0)
 print(f"{'':48}\n")
 print(pivot_df.to_string())
-pivot_df.plot(figsize=(14, 7), marker='o')  # Line plot
-plt.title('Number of Songs Released per Month per Year')
-plt.xlabel('Month')
-plt.ylabel('Number of Songs')
-plt.xticks(rotation=45)
-plt.legend(title='Year', bbox_to_anchor=(1.05, 1), loc='upper left', ncol=1)
-plt.tight_layout()
-plt.show()
+
+# pivot_df.plot(figsize=(14, 7), marker='o')  # Line plot
+# plt.title('Number of Songs Released per Month per Year')
+# plt.xlabel('Month')
+# plt.ylabel('Number of Songs')
+# plt.xticks(rotation=45)
+# plt.legend(title='Year', bbox_to_anchor=(1.05, 1), loc='upper left', ncol=1)
+# plt.tight_layout()
+# plt.show()
 
 recent_years = list(range(2018, 2024))  # Customize as needed
 pivot_df_filtered = pivot_df[recent_years]
@@ -635,13 +636,19 @@ Lets try to compare both methods and find the differences
 )
 
 fig, axes = plt.subplots(1, 2, figsize=(16, 6), sharey=True)
+
 sns.heatmap(NaN_correlation, ax=axes[0], annot=True, cmap="coolwarm", vmin=-1, vmax=1, fmt=".2f")
 axes[0].set_title("Correlation (with NaNs)")
 
 sns.heatmap(correlation_matrix_zeroes, ax=axes[1], annot=True, cmap="coolwarm", vmin=-1, vmax=1, fmt=".2f")
 axes[1].set_title("Correlation (NaNs replaced with 0)")
 
-plt.tight_layout()
+fig.suptitle(
+    "Compare both correlation matrices: Handling NaNs vs Replacing NaNs with Zeroes",
+    fontsize=16, y=1.00
+)
+
+plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.show()
 
 
@@ -857,15 +864,15 @@ plot_graphs(
 )
 
 
-plot_graphs(
-    df=youtube_ratio_df,
-    plot_type='hist',
-    x_col='views_to_likes_ratio',
-    title='Distribution of YouTube Views-to-Likes Ratio',
-    xlabel="Views per Like",
-    ylabel='Frequency"',
-    figsize=(10, 6)
-)
+# plot_graphs(
+#     df=youtube_ratio_df,
+#     plot_type='hist',
+#     x_col='views_to_likes_ratio',
+#     title='Distribution of YouTube Views-to-Likes Ratio',
+#     xlabel="Views per Like",
+#     ylabel='Frequency"',
+#     figsize=(10, 6)
+# )
 
 color_print(
     f"""
@@ -878,15 +885,15 @@ color_print(
 
 #chi-square
 
-plot_graphs(
-    df=youtube_ratio_df,
-    plot_type='histogram',
-    x_col='views_to_likes_ratio',
-    title='Log-Scaled Distribution of Views-to-Likes Ratio',
-    xlabel='Views per Like (log scale)',
-    ylabel='Frequency',
-    log_scale=True
-)
+# plot_graphs(
+#     df=youtube_ratio_df,
+#     plot_type='histogram',
+#     x_col='views_to_likes_ratio',
+#     title='Log-Scaled Distribution of Views-to-Likes Ratio',
+#     xlabel='Views per Like (log scale)',
+#     ylabel='Frequency',
+#     log_scale=True
+# )
 
 plot_graphs(
     df=youtube_ratio_df,
@@ -908,15 +915,15 @@ youtube_ratio_df = youtube_ratio_df[youtube_ratio_df['views_to_likes_ratio'] > 0
 youtube_ratio_df['log_ratio'] = np.log10(youtube_ratio_df['views_to_likes_ratio'])
 
 # Step 2: Plot Raw Histogram
-plot_graphs(
-    df=youtube_ratio_df,
-    plot_type='hist',
-    x_col='views_to_likes_ratio',
-    title='Raw Distribution of Views-to-Likes Ratio',
-    xlabel='Views per Like',
-    ylabel='Frequency',
-    remove_outliers=False
-)
+# plot_graphs(
+#     df=youtube_ratio_df,
+#     plot_type='hist',
+#     x_col='views_to_likes_ratio',
+#     title='Raw Distribution of Views-to-Likes Ratio',
+#     xlabel='Views per Like',
+#     ylabel='Frequency',
+#     remove_outliers=False
+# )
 
 # Step 3: Plot Log-Scaled Histogram
 plot_graphs(
@@ -1049,7 +1056,7 @@ probably have to filter the data
 )
 
 TickTok_PerYear = spotify_dataset[spotify_dataset['release_date'] >= '2016-09-01']
-TickTok_PerYear = TickTok_PerYear[spotify_dataset['release_year'] >= 2016]
+TickTok_PerYear = TickTok_PerYear[TickTok_PerYear['release_year'] >= 2016]
 
 
 color_print(
@@ -1167,3 +1174,39 @@ Beyonce  "TEXAS HOLD 'EM" (2024) is 25.82 times — a bigest tiktok success this
      """
     , level="info"
 )
+
+tiktok = pd.DataFrame({
+    'release_year': [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024],
+    'track': ['Notion', 'Infinity', 'Funny Song', 'Oh No', 'Spongebob', 'STAY (with Justin Bieber)',
+              'Aesthetic', 'Flowers', "TEXAS HOLD 'EM"],
+    'artist': ['The Rare Occasions', 'Jaymes Young', 'Cavendish Music', 'Kreepa', 'Dante9k',
+               'The Kid LAROI', 'Tollan Kim', 'Miley Cyrus', 'Beyoncé'],
+    'ratio': [5.05, 24.75, 33.12, 45.40, 21.40, 14.28, 24.80, 28.45, 25.82]
+})
+
+tiktok['label'] = tiktok['release_year'].astype(str) + ' - ' + tiktok['track'] + ' (' + tiktok['artist'] + ')'
+
+# Sort by year for clean plot
+tiktok = tiktok.sort_values('release_year')
+
+# Plot
+plt.figure(figsize=(12, 7))
+bars = plt.bar(
+    tiktok['label'],
+    tiktok['ratio'],
+    color='gray',
+    edgecolor='black'
+)
+
+# Add value labels
+for bar in bars:
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width() / 2, height + 1,  # adjust the +1 for spacing
+             f'{height:.1f}×', ha='center', va='bottom', fontsize=10)
+
+plt.ylabel('Ratio of Most Popular Song to Yearly Mean TikTok Views')
+plt.title('How Much More Popular Was the Top TikTok Song Each Year?')
+plt.xticks(rotation=45, ha='right')
+plt.tight_layout()
+plt.grid(axis='y', linestyle='--', alpha=0.6)
+plt.show()
